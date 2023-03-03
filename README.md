@@ -26,8 +26,12 @@ HPC Pipeline
 ```
 Get_param.m
 ```
-If data is saved in the right folder structure/naming conventions (and the code functions as I've intended) this is the only function you will have to edit. Change all the parameters according to how you want to analyse your data.
+If data is saved in the right folder structure/naming conventions (and the code functions as I've intended) this is the only function apart from submit.sh you will have to edit. Change all the parameters according to how you want to analyse your data.
 
+```
+submit.sh
+```
+Batch file to submit the HPC that will run the pipeline. Specify the number of electrode pairs as a slurm-job array.
 ```
 main.m
 ```
