@@ -17,7 +17,7 @@ Get MI and electrodes of interest
 ```
 MI_ERP.m
 ```
-RUN THIS FIRST LOCALLY. Estimates MI and performs parametric permutation testing. Saves channels with significant MI to a mat-file (that you will have to upload to the EoI-folder for the pipeline to work.
+RUN THIS FIRST LOCALLY. Estimates MI and performs parametric permutation testing. Saves channels with significant MI to a mat-file (that you will have to upload to the EoI-folder for the pipeline to work).
 
 HPC Pipeline
 ----------------------------
