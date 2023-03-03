@@ -1,0 +1,61 @@
+
+%% IMPORT DATA
+% Imports and preprocesses data from standa
+
+
+
+
+
+%% 
+
+function [iEEG1, iEEG2] = impiEEG(participantnum, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length)
+addpath('/home/jma201/coi-ieeg')
+addpath('/home/jma201/iEEG')
+path = basefold; 
+datatype = char(datatype);
+type = char(condition);
+
+partfilepath = strcat(path,'/',datatype);
+filesinfold = dir(partfilepath);                                            %Defines a struct with all the data from one participant
+
+for filei = 1: length(filesinfold)
+    filename = cellstr(filesinfold(filei).name);
+    allfilenames (1, filei) = filename;                                     %This is the cell array where the filenames are stored
+end
+
+allfilenames = allfilenames (3:end);
+
+%We want bipolar-reference
+STDfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_sta.set');
+DVTfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_dev.set');
+
+%Check if file exists, if not print "file missing"
+if isfile(STDfilepath) == 1 &&  isfile(DVTfilepath) == 1
+
+    %Load data from participanti-specified for deviant trials and re-epoch
+    %for local
+    iEEG1 = pop_loadset(DVTfilepath);
+    iEEG1 = pop_resample( iEEG1, srate);
+    iEEG1 = pop_eegfiltnew(iEEG1, low_cutoff ,high_cutoff,filt_order,0,[],0);
+    if re_epoch == 1
+        iEEG1 = pop_epoch(iEEG1, dev_epochs, epoch_length, 'newname', 'dvt', 'epochinfo', 'yes');  %LOCAL
+    end
+
+    iEEG1 = eeg_checkset( iEEG1 );
+
+
+    %Load data from participanti-specified for standard trials
+    iEEG2 = pop_loadset(STDfilepath);
+    iEEG2 = pop_resample(iEEG2, srate);
+    iEEG2 = pop_eegfiltnew(iEEG2, low_cutoff ,high_cutoff,filt_order,0,[],0);
+    if re_epoch == 1
+        iEEG2 = pop_epoch(iEEG2, std_epochs, epoch_length, 'newname', 'dvt', 'epochinfo', 'yes');  %LOCAL
+    end
+    iEEG2 = eeg_checkset(iEEG2);
+
+else
+    iEEG1 = [];
+    iEEG2 = [];
+
+end
+end
