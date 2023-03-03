@@ -2,6 +2,8 @@ Pipeline for estimating MI & CoI with GCMI
 =====================================================
 This repository contains scripts for estimating MI and CoI using gaussian copula estimation ([Ince, 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23471)). Designed to be run on the Cambridge HPC-server.
 
+I have tested this with the marmoset-data I have, and it is working for me at least, but let me know of any problems!
+
 Data-folder
 ----------------------------
 
