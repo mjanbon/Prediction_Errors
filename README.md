@@ -1,35 +1,47 @@
-# CoI-pipeline
-Pipeline for estimating mutual information and co_information using gaussian copula estimation
+Pipeline for estimating MI & CoI with GCMI
+=====================================================
+This repository contains scripts for estimating MI and CoI using gaussian copula estimation ([Ince, 2016](https://onlinelibrary.wiley.com/doi/full/10.1002/hbm.23471)). Designed to be run on the Cambridge HPC-server.
 
-This pipeline uses GCMI (Ince et al, 2016) to estimate mutual information and co-information from electrophysiological data of auditory oddball paradigms. 
+Data-folder
+----------------------------
 
-You will also need GCMI-functions and CMI-functions for the pipeline to work.
+The data-folder contains the folder structure you should use with pipeline for it work. 
 
-Data folder shows the folder structure the data has to be organised in for the pipeline to work. Empty text-files show the naming conventions to use.
+Empty text files show the naming convention for the data-files: 'Participant_Condition_sta.set'
 
-SCRIPTS FOR THE PIPELINE 
+EoI-folder should contain the mat-files with the electrodes of interest. 
 
-Get_param.m:
 
-Defines all of the attributes of the data, and has to be changed according to the analysed data. Only change the parameters here to run the pipeline with your
-data
+Get MI and electrodes of interest
+----------------------------
+```
+MI_ERP.m
+```
+RUN THIS FIRST LOCALLY. Estimates MI and performs parametric permutation testing. Saves channels with significant MI to a mat-file (that you will have to upload to the EoI-folder for the pipeline to work.
 
-main.m:
+HPC Pipeline
+----------------------------
+```
+Get_param.m
+```
+If data is saved in the right folder structure/naming conventions (and the code functions as I've intended) this is the only function you will have to edit. Change all the parameters according to how you want to analyse your data.
 
-Function build to function with the Cambridge HPC, takes in a SLURM-job as an input.
+```
+main.m
+```
+Should function with the Cambridge HPC. Takes in a slurm-job as an input, which specifies the electrode pair MI/CoI will be estimated for.
 
-ImpiEEG.m:
+```
+EoI_data.m
+```
+Loads the electrodes of interest from the mat-files in the EoI-folder
 
-Imports and preprocesses data-based on parameters defined in Get_param.m
+```
+ImpiEEG.m
+```
+Loads the data onto a matlab-structure based on the parameters specified in Get_param.
 
-EoI_data.m:
-
-Imports electrodes of interests EoI.mat-files from the Data/EoI -folder
-
-Get_COI.m:
-
-Estimates Co-information for the specified electrode pair (decided by the slurm-job id main takes as input)
-
-MI_ERP:
-
-Estimates mutual information and performs parametric permutation testing. Saves significant electrodes into a mat-file. (Run locally and upload said mat-file into DATA/EOI
+```
+Get_COI.m
+```
+Estimates CoI for the specified electrode pair (which is decided by the slurm-job index that the main.m takes as input)
