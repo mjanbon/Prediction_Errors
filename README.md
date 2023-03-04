@@ -31,7 +31,7 @@ If data is saved in the right folder structure/naming conventions (and the code 
 ```
 submit.sh
 ```
-Batch file to submit to the HPC that will run the pipeline. Specify the number of electrode pairs as a slurm-job array.
+Batch file to submit to the HPC that will run the pipeline. Specify the number of electrode pairs as a slurm-job array (Pedro's tutorial in the lab Gitlab explains really well how to use the HPC)
 ```
 main.m
 ```
