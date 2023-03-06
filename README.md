@@ -35,7 +35,7 @@ Batch file to submit to the HPC that will run the pipeline. Specify the number o
 ```
 main.m
 ```
-Should function with the Cambridge HPC. Takes in a slurm-job as an input, which specifies the electrode pair MI/CoI will be estimated for.
+Should function with the Cambridge HPC. Takes in a slurm-job index as an input, which specifies the electrode pair MI/CoI will be estimated for.
 
 ```
 EoI_data.m
