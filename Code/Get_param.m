@@ -43,7 +43,7 @@ participants = {'Ji' 'Nr'};
 
 %% CONDITION
 pick_con = 1;
-all_con = {'XX' 'XY'};  %change according to your conditions
+all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 condition = all_con(pick_con);
 
 %% ELECTRODES OF INTEREST
@@ -79,5 +79,5 @@ filt_order = 330;%filter order
 baseline = 851:900;
 start_cut_off = 1:851;
 end_cut_off = 226; %:end
-kperm = 200;
+kperm = 2;
 end

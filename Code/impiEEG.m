@@ -26,8 +26,8 @@ end
 allfilenames = allfilenames (3:end);
 
 %Species path + filename to load the data from
-STDfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_sta.set');
-DVTfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_dev.set');
+STDfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_sta.set')
+DVTfilepath = strcat(path,datatype,'/',allfilenames(participantnum),'/',condition,'/',allfilenames(participantnum),'_', type, '_dev.set')
 
 %% LOAD DATA
 if isfile(STDfilepath) == 1 &&  isfile(DVTfilepath) == 1

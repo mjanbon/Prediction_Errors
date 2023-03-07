@@ -13,7 +13,7 @@ for i = 1: length(participants)
     for con = 1:length(all_con)
         %% IMPORT DATA
         % Import data and check for same amount of trials & channels
-        [dvt, std] = impiEEG(i, basefold, datatype, all_con(con), srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length);
+        [dvt, std] = impiEEG(i, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length);
 
         if (dvt.nbchan < std.nbchan)
             channum = dvt.nbchan;
