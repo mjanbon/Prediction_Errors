@@ -25,7 +25,7 @@ addpath('D:\iEEG\Data\All_data\EoI')
 %% Load data and set up variables
 
 %%Get data from individual files to one struct (CoI)
-[~, CoI] = load_data();
+[~, CoI] = load_data_monkey_JI_XY();
 
 % Set empty matrices / zeros
 %Matrix size defined by length of trial (times x times)
