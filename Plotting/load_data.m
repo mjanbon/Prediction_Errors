@@ -1,6 +1,6 @@
 function [elecs, Co_I] = load_data(basefold,datatype,condition,participant_name)
 
-load_path = strcat(basefold,'Results/',datatype,'/',participant_name,'/',condition);
+load_path = char(strcat(basefold,'Results\',datatype,'\',participant_name,'\',condition));
 files = dir(load_path);
 files = files(3:end);
 cd (load_path)
@@ -8,7 +8,6 @@ cd (load_path)
 for filei = 1 : length(files)
     filename = files(filei).name;
     elecs(filei).names = filename;
-
 end
 
 for eleci = 1: length(elecs)
