@@ -1,9 +1,9 @@
-function [elecs, Co_I] = load_data(basefold,datatype,condition,participant_name)
+function [elecs, Co_I] = load_data(basefold,datatype,condition,participant_name,)
 
-load_path = strcat(basefold,'Results/',datatype,'/',participant_name,'/',condition);
-files = dir(load_path);
+path = strcat(basefold,'Results/',datat);
+files = dir(strcat('D:\iEEG\Results\Marmo\Ji\XY\results_Ji_XY'));
 files = files(3:end);
-cd (load_path)
+cd (path)
 
 for filei = 1 : length(files)
     filename = files(filei).name;
