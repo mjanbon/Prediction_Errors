@@ -24,7 +24,7 @@
 
 function [basefold, datatype, subject, all_con, condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(get_elec)
 %% TYPE OF DATA
-basefold = 'D:/iEEG/Data/All_data/';
+basefold = 'D:\iEEG\Data\All_data\';
 data_index = 2;
 datatypes = {'Cat_EcoG', 'Marmo_EcoG', 'Human_EcoG', 'Human_EEG'}; %change according to your datatypes
 datatype = char(datatypes(data_index));
@@ -42,9 +42,9 @@ participants = {'Ji' 'Nr'};
 %participants = {'P1};
 
 %% CONDITION
-pick_con = 1;
+pick_con = 2;
 all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
-condition = all_con(pick_con);
+condition = char(all_con(pick_con));
 
 %% ELECTRODES OF INTEREST
 %Import the electrodes of interest from the mat-file (Run MI_ERP to get this)
