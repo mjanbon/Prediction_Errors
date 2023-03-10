@@ -6,7 +6,6 @@
 
 function [iEEG1, iEEG2] = impiEEG(participantnum, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length)
 
-
 %% Defines the path(s)
 addpath('/home/jma201/coi-ieeg')
 addpath('/home/jma201/iEEG')
