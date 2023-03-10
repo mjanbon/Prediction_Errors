@@ -5,7 +5,9 @@
 %       Datatype: 'Marmo_EcoG', i.e., type of data (human ecog, marmo etc)
 %       partname: 'Ji'
 %       condition: 'XY'
-%       cutoff: final electrode number that is temporal. Eg. 16 if electrodes 1-16  are temporal and 17-27 are frontal
+%       cutoff: final electrode number that is temporal. Eg. 16 if
+%       electrodes 1-16  are temporal and 17-27 are frontal (or any other
+%       cut off-point inherent to the electrodes
 %       times: times vector for the data you are using 
 
 %% OUTPUT
@@ -18,14 +20,13 @@
 %       tempFFmr:redundant masks
 %       tempFFms: synergetic masks
 
-
-function [tempFFiall, tempFFi, tempFFm, tempFFmr, tempFFms,tempFFmi1, tempFFmi2,tempFFir,tempFFis, temp_nb, front_nb] = get_plotting_CoI(datatype, partname, condition, cutoff, times)
+function [tempFFiall, tempFFi, tempFFm, tempFFmr, tempFFms,tempFFmi1, tempFFmi2,tempFFir,tempFFis, temp_nb, front_nb] = get_plotting_CoI(basefold, datatype, partname, condition, cutoff, times)
 addpath('D:\iEEG\Data\All_data\EoI')
 
 %% Load data and set up variables
 
 %%Get data from individual files to one struct (CoI)
-[~, CoI] = load_data();
+[~, CoI] = load_data(basefold,datatype,condition,partname)
 
 % Set empty matrices / zeros
 %Matrix size defined by length of trial (times x times)
