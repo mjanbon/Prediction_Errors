@@ -28,6 +28,6 @@ iEEG1.times (start_cut_off) = [];
 iEEG1.times (end_cut_off:end) = [];
 
 %Get data in correct format
-[tempFFiall, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb, front_nb] = get_plotting_CoI(datatype, char(participants(participantnum)), condition, cutoff, iEEG1.times);
+[tempFFiall, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb, front_nb] = get_plotting_CoI(basefold,datatype, char(participants(participantnum)), condition, cutoff, iEEG1.times);
 
 
