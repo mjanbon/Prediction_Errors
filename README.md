@@ -51,3 +51,9 @@ Loads the data onto a matlab-structure based on the parameters specified in Get_
 Get_COI.m
 ```
 Estimates CoI for the specified electrode pair (which is decided by the slurm-job index that the main.m takes as input)
+
+
+Plotting
+----------------------------
+
+Currently building some functions to automatically plot stuff in the way we want to have them in the papers - this will make life significanly easier
