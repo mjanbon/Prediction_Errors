@@ -4,7 +4,7 @@ function [CoI_figure] = plot_tempo_frontal(basefold,participant_name, condition,
                                         xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask)
 
 %% Create figure and plot
-CoI_figure = figure(1);
+CoI_figure = figure(3);
 tiledlayout(4,3,'TileSpacing','Compact');
 
 %This is the combined synergetic/redundant

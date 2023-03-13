@@ -4,7 +4,7 @@ function [CoI_figure] = plot_fronto_frontal(basefold,participant_name, condition
                                         xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask)
 
 %% Create figure and plot
-CoI_figure = figure(1);
+CoI_figure = figure(5);
 tiledlayout(4,3,'TileSpacing','Compact');
 
 %This is the combined synergetic/redundant
@@ -30,7 +30,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
-imagesc(timing,timing,frontintFFm./frontint_nb);
+imagesc(timing,timing,frontintFFm);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -54,7 +54,7 @@ colormap(ax(4), redblue)
 
 %Redundant mask
 ax(6) = nexttile(9);
-imagesc(timing,timing,frontintFFmr./frontint_nb);
+imagesc(timing,timing,frontintFFmr);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -63,14 +63,14 @@ colorbar;
 
 %Synergy mask
 ax(7) = nexttile(12);
-imagesc(timing,timing,frontintFFms./frontint_nb);
+imagesc(timing,timing,frontintFFms);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', climits);
 colorbar; colormap(ax(1), redblue);
 
 filename = char(strcat(participant_name,'_temporo_temporal_', condition));

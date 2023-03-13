@@ -18,12 +18,12 @@ frontal_high_MI_row = frontal_high_MI_row == frontal_highest;
 %Temporal
 Highest.temp.data = tempFFiall(:,:,temporal_high_MI_row');
 Highest.temp.MI = tempFFmi1(:,temporal_high_MI_row);
-Highest.temp.sigMask = temp_all_mask(:,:,temporal_high_MI_row);
+Highest.temp.sigMask = temp_all_mask(:,:,temporal_high_MI_row');
 
 %Frontal
 Highest.front.data = frontFFiall(:,:,frontal_high_MI_row');
 Highest.front.MI = frontFFmi1(:,frontal_high_MI_row);
-Highest.front.sigMask = front_all_mask(:,:,frontal_high_MI_row);
+Highest.front.sigMask = front_all_mask(:,:,frontal_high_MI_row');
 
 end
 
