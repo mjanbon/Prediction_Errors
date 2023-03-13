@@ -1,3 +1,5 @@
+
+%% Loads individual CoI-files computed by the HPC to a single structure for convenient handling and plottinh
 function [elecs, Co_I] = load_data(basefold,datatype,condition,participant_name)
 
 load_path = char(strcat(basefold,'Results\',datatype,'\',participant_name,'\',condition));
@@ -15,17 +17,17 @@ for eleci = 1: length(elecs)
     elec_name = elecs(eleci).names;
     elec_name = erase(elec_name, '.mat');
     new_elec_name = erase(elec_name,'_permuted');
-    identifier = erase(elec_name,'Ji_');
+    identifier = erase(elec_name, char(strcat(participant_name,'_')));
     identifier = erase(identifier,'permuted_');
     part_name = erase(new_elec_name, identifier);
     part_name = part_name(1:length(part_name)-1);
     new_elec_name = erase(new_elec_name,part_name);
     new_elec_name = new_elec_name(2:length(new_elec_name));
 
-    Co_I.(part_name).XY.data.(new_elec_name) = CoI.(elec_name).CoI.Ji.XY.data.(identifier);
-    Co_I.(part_name).XY.sigMask.(new_elec_name) = CoI.(elec_name).CoI.Ji.XY.sigMask.(identifier);
-    Co_I.(part_name).XY.MI1.(new_elec_name) = CoI.(elec_name).CoI.Ji.XY.MI1.(identifier);
-    Co_I.(part_name).XY.MI2.(new_elec_name) = CoI.(elec_name).CoI.Ji.XY.MI2.(identifier);
-    Co_I.(part_name).XY.joint.(new_elec_name) = CoI.(elec_name).CoI.Ji.XY.joint.(identifier);
+    Co_I.(part_name).(condition).data.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).data.(identifier);
+    Co_I.(part_name).(condition).sigMask.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).sigMask.(identifier);
+    Co_I.(part_name).(condition).MI1.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).MI1.(identifier);
+    Co_I.(part_name).(condition).MI2.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).MI2.(identifier);
+    Co_I.(part_name).(condition).joint.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).joint.(identifier);
 end
 end
