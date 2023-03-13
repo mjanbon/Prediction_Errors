@@ -1,19 +1,19 @@
 %Plots temporal electrodes 
 %saves figures as Pdf and fig
-function [temp_figure] = plot_temporal(participant_name, condition, tempFFi, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb)
+function [CoI_figure] = plot_temporal(basefold,participant_name, condition, tempFFi, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb, timing, ...
+                                        xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask)
 
 %% Create figure and plot
-temp_figure = figure(1);
+CoI_figure = figure(1);
 tiledlayout(4,3,'TileSpacing','Compact');
 
 %This is the combined synergetic/redundant
 ax(1) = nexttile(5);
 set (gcf,'renderer','Painters','Position', [10 10 800 450]);
-timing = dvt.times;
 contourf(timing,timing,tempFFi, 50,'linecolor','none');
 hold on
 xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', clim);
+set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits);
 colormap(ax(1), redblue)
 
 %MI1
@@ -73,7 +73,8 @@ ax(1) = nexttile(1);
 set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
 colorbar; colormap(ax(1), redblue);
 
-filename = strcat(participant_name,'_within_', condition);
+filename = char(strcat(participant_name,'_temporal_within_', condition));
 
-saveas(temp_figure,strcat(filename,'.pdf'),'pdf');
-saveas(temp_figure,strcat(filename,'.pdf'),'png');
+cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
+saveas(CoI_figure,strcat(filename,'.pdf'),'pdf');
+saveas(CoI_figure,strcat(filename,'.fig'),'fig');
