@@ -1,7 +1,6 @@
 %% PARAMETERS FOR COI-PIPELINE
 % IMPORTS SPECIFIED PARAMETERS FOR THE PIPELINE
 
-%%
 %This is the only file that needs to be edited to run the pipeline for
 %different condition and participants
 
@@ -14,7 +13,7 @@
 %dev = deviant/standard
 
 %The folder structure for data is:
-%C:/.../basefolder/datatype/participant/condition/participant_data.set
+%C:/.../basefold/datatype/participant/condition/participant_data.set
 %E.g.
 %D:/.../All_data/Marmo_EcoG/Ji/XX/Ji_XX_dev.set
 
@@ -69,10 +68,10 @@ else
 end
 
 %% FILTERING & DATA
-srate = 500;%Sampling rate
-low_cutoff = 0;%low-cut filter
-high_cutoff = 40;%high_cut filter
-filt_order = 330;%filter order
+srate = 500;        %Sampling rate
+low_cutoff = 0;     %low-cut filter
+high_cutoff = 40;   %high_cut filter
+filt_order = 330;   %filter order
 
 %Define baseline normalisation, cutt-off points for trials (time period of
 %interest), and number of permutations for CoI
