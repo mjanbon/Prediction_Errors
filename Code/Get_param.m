@@ -41,7 +41,7 @@ participants = {'Ji' 'Nr'};
 %participants = {'P1};
 
 %% CONDITION
-pick_con = 2;
+pick_con = 1;
 all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 condition = char(all_con(pick_con));
 

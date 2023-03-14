@@ -39,25 +39,25 @@ timing = iEEG1.times;
 
 %% % PLOT Averages of all electrodes ( temporal/frontal/fronto-temporal/temporo-temporal/fronto-frontal)
 % 
-% %Plot temporal figures
-% [temp_figure] = plot_temporal(basefold,participants(participantnum), condition, tempFFi, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb, timing,...
-%     xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
-% 
-% %Plot frontal figures
-% [front_figure] = plot_frontal(basefold,participants(participantnum), condition, frontFFi, frontFFm, frontFFmr, frontFFms, frontFFmi1, frontFFmi2, frontFFir, frontFFis, front_nb, timing,...
-%     xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
-% 
-% %Plot temporo-frontal figures
-% [tempo_front_figure] = plot_tempo_frontal(basefold,participants(participantnum), condition, tempfrontFFi, tempfrontFFm, tempfrontFFmr, tempfrontFFms, tempfrontFFmi1, tempfrontFFmi2, tempfrontFFir, tempfrontFFis, tempfront_nb, timing,...
-%     xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
-% 
-% %Plot temporo-frontal figures
-% [temporo_temporal_figure] = plot_tempo_temporal(basefold,participants(participantnum), condition, tempintFFi, tempintFFm, tempintFFmr, tempintFFms, tempintFFmi1, tempintFFmi2, tempintFFir, tempintFFis, tempint_nb, timing,...
-%     xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
-% 
-% %Plot temporo-frontal figures
-% [frontal_frontal_figure] = plot_fronto_frontal(basefold,participants(participantnum), condition, frontintFFi, frontintFFm, frontintFFmr, frontintFFms, frontintFFmi1, frontintFFmi2, frontintFFir, frontintFFis, frontint_nb, timing,...
-%     xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels, y_labels_CoI, y_labels_MI,climits, climits_mask);
+%Plot temporal figures
+[temp_figure] = plot_temporal(basefold,participants(participantnum), condition, tempFFi, tempFFm, tempFFmr, tempFFms, tempFFmi1, tempFFmi2, tempFFir, tempFFis, temp_nb, timing,...
+    xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
+
+%Plot frontal figures
+[front_figure] = plot_frontal(basefold,participants(participantnum), condition, frontFFi, frontFFm, frontFFmr, frontFFms, frontFFmi1, frontFFmi2, frontFFir, frontFFis, front_nb, timing,...
+    xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
+
+%Plot temporo-frontal figures
+[tempo_front_figure] = plot_tempo_frontal(basefold,participants(participantnum), condition, tempfrontFFi, tempfrontFFm, tempfrontFFmr, tempfrontFFms, tempfrontFFmi1, tempfrontFFmi2, tempfrontFFir, tempfrontFFis, tempfront_nb, timing,...
+    xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
+
+%Plot temporo-frontal figures
+[temporo_temporal_figure] = plot_tempo_temporal(basefold,participants(participantnum), condition, tempintFFi, tempintFFm, tempintFFmr, tempintFFms, tempintFFmi1, tempintFFmi2, tempintFFir, tempintFFis, tempint_nb, timing,...
+    xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels,y_labels_CoI, y_labels_MI,climits,climits_mask);
+
+%Plot temporo-frontal figures
+[frontal_frontal_figure] = plot_fronto_frontal(basefold,participants(participantnum), condition, frontintFFi, frontintFFm, frontintFFmr, frontintFFms, frontintFFmi1, frontintFFmi2, frontintFFir, frontintFFis, frontint_nb, timing,...
+    xlimits,ylimits_CoI,ylimit_MI,xticks_CoI,yticks_CoI,yticks_MI,x_labels, y_labels_CoI, y_labels_MI,climits, climits_mask);
 
 
 %% Plot the electrodes with the highest MI
@@ -67,7 +67,7 @@ for participanti = 1
 HighAF.(char(participants(participanti))) = Highest;
 end
 
-%Plot highest temporal electrode
+%Plot highest temporal electrodes
 [temp_high_fig, front_high_fig]  = plot_highest_temporal(basefold, participants(participantnum), participants, condition, HighAF, timing, xlimits, ylimits_CoI, ylimit_MI, xticks_CoI, yticks_CoI, yticks_MI, x_labels, y_labels_CoI, y_labels_MI, climits, climits_mask);
 
 
