@@ -62,7 +62,7 @@ timing = iEEG1.times;
 
 %% Plot the electrodes with the highest MI
 %find the electrodes with the highest MI for all participants and load data into struct
-for participanti = 1
+for participanti = 1:length(participants)
 [Highest] = Get_highest_MI(basefold,datatype,condition,char(participants(participanti)), cutoff, timing);
 HighAF.(char(participants(participanti))) = Highest;
 end
