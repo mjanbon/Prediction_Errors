@@ -12,7 +12,8 @@
 
 %% OUTPUT
 
-%       tempFFIall: CoI of all temporal electrode concateneted into one
+%       tempFFIall: CoI of all temporal electrodes concateneted into one
+%       (within)
 %       tempFFi: mean of all electrodes of CoI
 %       tempFFir: only redundant
 %       tempFFis: only synergetic 
@@ -20,16 +21,30 @@
 %       tempFFmr:redundant masks
 %       tempFFms: synergetic masks
 
+%       FrontFFI ...
+%       ... =frontal within
+
+%       tempfrontFFI ...
+%       ... =temporo-frontal within
+
+%       tempintFFI ...
+%       ... =temporal interactions within
+
+%       frontintFFI ...
+%       ... =temporal interactions within
+%%
+
+
 function [tempFFiall, tempFFi, temp_all_mask, tempFFm, tempFFmr, tempFFms,tempFFmi1, tempFFmi2,tempFFir,tempFFis, temp_nb, front_nb, tempfront_nb, tempint_nb, frontint_nb, ...
           frontFFiall, frontFFi, front_all_mask, frontFFm, frontFFmr, frontFFms, frontFFmi1, frontFFmi2, frontFFir, frontFFis,...
           tempfrontFFiall, tempfrontFFi, tempfrontFFm, tempfrontFFmr, tempfrontFFms, tempfrontFFmi1, tempfrontFFmi2, tempfrontFFir, tempfrontFFis,...
           tempintFFiall, tempintFFi, tempintFFm, tempintFFmr, tempintFFms, tempintFFmi1, tempintFFmi2, tempintFFir, tempintFFis,...
-          frontintFFiall, frontintFFi, frontintFFm, frontintFFmr, frontintFFms, frontintFFmi1, frontintFFmi2, frontintFFir, frontintFFis] = get_plotting_CoI(basefold, datatype, partname, condition, cutoff, times)
+          frontintFFiall, frontintFFi, frontintFFm, frontintFFmr, frontintFFms, frontintFFmi1, frontintFFmi2, frontintFFir, frontintFFis] = get_plotting_CoI(basefold, datatype, participantnum, partname, condition, cutoff, times)
 
 addpath('D:\iEEG\Data\All_data\EoI')
 
 %% Load data and set up variables
-
+cutoff = cutoff(participantnum);
 %%Get data from individual files to one struct (CoI)
 [~, CoI] = load_data(basefold,datatype,condition,partname);
 
