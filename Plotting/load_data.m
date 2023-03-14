@@ -24,10 +24,10 @@ for eleci = 1: length(elecs)
     new_elec_name = erase(new_elec_name,part_name);
     new_elec_name = new_elec_name(2:length(new_elec_name));
 
-    Co_I.(part_name).(condition).data.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).data.(identifier);
-    Co_I.(part_name).(condition).sigMask.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).sigMask.(identifier);
-    Co_I.(part_name).(condition).MI1.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).MI1.(identifier);
-    Co_I.(part_name).(condition).MI2.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).MI2.(identifier);
-    Co_I.(part_name).(condition).joint.(new_elec_name) = CoI.(elec_name).CoI.Ji.(condition).joint.(identifier);
+    Co_I.(part_name).(condition).data.(new_elec_name) = CoI.(elec_name).CoI.(participant_name).(condition).data.(identifier);
+    Co_I.(part_name).(condition).sigMask.(new_elec_name) = CoI.(elec_name).CoI.(participant_name).(condition).sigMask.(identifier);
+    Co_I.(part_name).(condition).MI1.(new_elec_name) = CoI.(elec_name).CoI.(participant_name).(condition).MI1.(identifier);
+    Co_I.(part_name).(condition).MI2.(new_elec_name) = CoI.(elec_name).CoI.(participant_name).(condition).MI2.(identifier);
+    Co_I.(part_name).(condition).joint.(new_elec_name) = CoI.(elec_name).CoI.(participant_name).(condition).joint.(identifier);
 end
 end
