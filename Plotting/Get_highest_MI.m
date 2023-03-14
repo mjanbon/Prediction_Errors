@@ -1,10 +1,10 @@
 %% GET GETS THE ELECTRODE WITH THE HIGHEST MI PEAK FOR TEMPORAL AND FRONTAL AND RETURNS THE ELECTRODE'S DATA IN A STRUCT
-function [Highest] = Get_highest_MI(basefold,datatype,condition,partname, cutoff, times)
+function [Highest] = Get_highest_MI(basefold,datatype,condition, participantnum,partname, cutoff, times)
 
 %Get data in correct format
 [tempFFiall, ~, temp_all_mask, ~, ~, ~,tempFFmi1, ~,~,~, ~, ~, ~, ~, ~, ...
           frontFFiall, ~, front_all_mask, ~, ~, ~, frontFFmi1, ~, ~, ~,...
-          ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~] = get_plotting_CoI(basefold,datatype, partname, condition, cutoff, times);
+          ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~, ~] = get_plotting_CoI(basefold,datatype, participantnum, partname, condition, cutoff, times);
 
 %% FIND ELECTRODE WITH HIGHEST MI FOR TEMPORAL AND FRONTAL
 temporal_high_MI_row = max(tempFFmi1);
