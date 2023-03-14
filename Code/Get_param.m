@@ -76,7 +76,7 @@ filt_order = 330;   %filter order
 %Define baseline normalisation, cutt-off points for trials (time period of
 %interest), and number of permutations for CoI
 baseline = 851:900;
-start_cut_off = 1:851;
+start_cut_off = 1:850;
 end_cut_off = 226; %:end
 kperm = 2;
 end
