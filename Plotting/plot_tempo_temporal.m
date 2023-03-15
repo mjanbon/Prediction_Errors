@@ -70,7 +70,7 @@ set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xti
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', climits);
 colorbar; colormap(ax(1), redblue);
 
 filename = char(strcat(participant_name,'_temporo_temporal_', condition));

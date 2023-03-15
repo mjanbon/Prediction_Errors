@@ -116,10 +116,10 @@ set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xti
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', climits);
 colorbar; colormap(ax(1), redblue);
 
-filename = char(strcat(participant,'highest_average_frontal_', condition));
+filename = char(strcat('Highest_average_frontal_', condition));
 
 cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
 saveas(Front_figure_all,strcat(filename,'.pdf'),'pdf');
@@ -258,7 +258,7 @@ for participanti = 1:length(participants)
 
     %Combined synergetic/redundant mask
     ax(2) = nexttile(6);
-    imagesc(times,times,frontFFm./channel_nb);
+    imagesc(times,times,frontFFm);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -282,7 +282,7 @@ for participanti = 1:length(participants)
 
     %Redundant mask
     ax(6) = nexttile(9);
-    imagesc(times,times,frontFFmr./channel_nb);
+    imagesc(times,times,frontFFmr);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -291,7 +291,7 @@ for participanti = 1:length(participants)
 
     %Synergy mask
     ax(7) = nexttile(12);
-    imagesc(times,times,frontFFms./channel_nb);
+    imagesc(times,times,frontFFms);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -301,7 +301,7 @@ for participanti = 1:length(participants)
     set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
     colorbar; colormap(ax(1), redblue);
 
-    filename = char(strcat(participant,'highest_average_frontal_', condition));
+    filename = char(strcat(char(participants(participanti)),'_highest_frontal_', condition));
 
     cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
     saveas(Front_figure,strcat(filename,'.pdf'),'pdf');
@@ -334,7 +334,7 @@ for participanti = 1:length(participants)
 
     %Combined synergetic/redundant mask
     ax(2) = nexttile(6);
-    imagesc(times,times,tempFFm./channel_nb);
+    imagesc(times,times,tempFFm);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -358,7 +358,7 @@ for participanti = 1:length(participants)
 
     %Redundant mask
     ax(6) = nexttile(9);
-    imagesc(times,times,tempFFmr./channel_nb);
+    imagesc(times,times,tempFFmr);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -367,7 +367,7 @@ for participanti = 1:length(participants)
 
     %Synergy mask
     ax(7) = nexttile(12);
-    imagesc(times,times,tempFFms./channel_nb);
+    imagesc(times,times,tempFFms);
     set(gca,'YDir','normal');
     xlim(xlimits);  ylim(ylimits_CoI);
     set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -377,7 +377,7 @@ for participanti = 1:length(participants)
     set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
     colorbar; colormap(ax(1), redblue);
 
-    filename = char(strcat(participant,'highest_temporal_', condition));
+    filename = char(strcat(char(participants(participanti)),'_highest_temporal_', condition));
 
     cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
     saveas(Temp_figure,strcat(filename,'.pdf'),'pdf');

@@ -30,7 +30,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
-imagesc(timing,timing,frontintFFm);
+imagesc(timing,timing,frontintFFm./frontint_nb);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -54,7 +54,7 @@ colormap(ax(4), redblue)
 
 %Redundant mask
 ax(6) = nexttile(9);
-imagesc(timing,timing,frontintFFmr);
+imagesc(timing,timing,frontintFFmr./frontint_nb);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -63,7 +63,7 @@ colorbar;
 
 %Synergy mask
 ax(7) = nexttile(12);
-imagesc(timing,timing,frontintFFms);
+imagesc(timing,timing,frontintFFms./frontint_nb);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -73,7 +73,7 @@ ax(1) = nexttile(1);
 set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', climits);
 colorbar; colormap(ax(1), redblue);
 
-filename = char(strcat(participant_name,'_temporo_temporal_', condition));
+filename = char(strcat(participant_name,'_fronto_frontal_', condition));
 
 cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
 saveas(CoI_figure,strcat(filename,'.pdf'),'pdf');

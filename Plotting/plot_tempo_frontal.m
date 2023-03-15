@@ -57,7 +57,7 @@ ax(6) = nexttile(9);
 imagesc(timing,timing,tempfrontFFmr./tempfront_nb);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
+set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick', xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
 colormap(ax(6), flipud(bone))
 colorbar;
 
@@ -66,11 +66,11 @@ ax(7) = nexttile(12);
 imagesc(timing,timing,tempfrontFFms./tempfront_nb);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
+set(gca,'ytick', yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', climits);
 colorbar; colormap(ax(1), redblue);
 
 filename = char(strcat(participant_name,'_temporo_frontal_', condition));
