@@ -12,13 +12,15 @@ ax(1) = nexttile(5);
 set (gcf,'renderer','Painters','Position', [10 10 800 450]);
 contourf(timing,timing,tempFFi, 50,'linecolor','none');
 hold on
-xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits);
+xlim(xlimits);  ylim(ylimits_CoI); clim(climits)
+set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels);
 colormap(ax(1), redblue)
 
+lims = clim
 %MI1
 ax(12) = nexttile(2);
-stdshade_acj(tempFFmi1',.2,'g',timing);
+stdshade_acj(tempFFmi1',.2,'g', timing);
+% title(strcat(condition,' temporal within all'))
 xlim(xlimits);  ylim(ylimit_MI);
 set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
 
@@ -31,8 +33,9 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
 imagesc(timing,timing,tempFFm./temp_nb);
+title(num2str(temp_nb));
 set(gca,'YDir','normal');
-xlim(xlimits);  ylim(ylimits_CoI);
+xlim(xlimits);  ylim(ylimits_CoI); clim(climits)
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
 colormap(ax(2), flipud(bone))
 
@@ -40,8 +43,8 @@ colormap(ax(2), flipud(bone))
 ax(3) = nexttile(8);
 set (gcf,'renderer','Painters','Position', [10 10 800 450]);
 contourf(timing,timing,tempFFir, 50,'linecolor','none');
-xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits);
+xlim(xlimits);  ylim(ylimits_CoI); clim(climits)
+set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels);
 colormap(ax(3), redblue)
 
 %synergy COI
@@ -49,7 +52,7 @@ ax(4) = nexttile(11);
 set (gcf,'renderer','Painters','Position', [10 10 800 450]);
 contourf(timing,timing,tempFFis, 50,'linecolor','none');
 xlim(xlimits);  ylim(ylimits_CoI);
-set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits);
+set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels);
 colormap(ax(4), redblue)
 
 %Redundant mask
@@ -70,11 +73,12 @@ set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xti
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', lims);
 colorbar; colormap(ax(1), redblue);
+hold off
 
 filename = char(strcat(participant_name,'_temporal_within_', condition));
-
-cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
-saveas(CoI_figure,strcat(filename,'.pdf'),'pdf');
-saveas(CoI_figure,strcat(filename,'.fig'),'fig');
+% 
+% cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
+% saveas(CoI_figure,strcat(filename,'.pdf'),'pdf');
+% saveas(CoI_figure,strcat(filename,'.fig'),'fig');

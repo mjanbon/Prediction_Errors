@@ -124,6 +124,7 @@ std_data_ERP_sel_chan2 = squeeze(std_data_minus_mean(:,channel2,:));
 % Computes co-information for the specified channels via gaussian copula
 % estimation (Ince et al., 2016)
 
+%Computes the CoI of channel X against channel X (within)
 if strcmp(chnum1,chnum2) == 1
     [MI1, MI2, coI, jointMI, sigMask] = cnm_coI_stimtimetime_within_channel([dvt_data_ERP_sel_chan1; std_data_ERP_sel_chan1],[dvt_data_ERP_sel_chan1; std_data_ERP_sel_chan1], [zeros(1, size(dvt_data_minus_mean,1)), ones(1, size(dvt_data_minus_mean,1))]', kperm);
 

@@ -19,6 +19,7 @@ colormap(ax(1), redblue)
 %MI1
 ax(12) = nexttile(2);
 stdshade_acj(tempintFFmi1',.2,'g',timing);
+title(strcat(participant_name,' ',condition,' temporal between'))
 xlim(xlimits);  ylim(ylimit_MI);
 set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
 
@@ -31,6 +32,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
 imagesc(timing,timing,tempintFFm./tempint_nb);
+title(num2str(tempint_nb));
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -75,6 +77,8 @@ colorbar; colormap(ax(1), redblue);
 
 filename = char(strcat(participant_name,'_temporo_temporal_', condition));
 
+tempint_nb
+(tempint_nb)/2
 cd (strcat(basefold,'Results\Marmo_EcoG\Figures'))
 saveas(CoI_figure,strcat(filename,'.pdf'),'pdf');
 saveas(CoI_figure,strcat(filename,'.fig'),'fig');

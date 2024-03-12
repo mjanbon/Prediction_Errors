@@ -1,5 +1,5 @@
-%Plots highest temporal electrode
-function [Temp_front_figure_all] = plot_average_temporo_frontal(basefold, participant, participants, condition, Temporo_front, times, xlimits, ylimits_CoI, ylimit_MI, xticks_CoI, yticks_CoI, yticks_MI, x_labels, y_labels_CoI, y_labels_MI, climits, climits_mask)
+%Plots temporo-frontal electrode
+function [Temp_front_figure_all] = plot_average_temporo_frontal(basefold, participant, participants, condition, Temporo_front, times, xlimits, ylimits_CoI, ylimit_MI, xticks_CoI, yticks_CoI, yticks_MI, x_labels, y_labels_CoI, y_labels_MI, climits, climits_mask, tempfront_nb)
 
 %%Define matrices for averaged CoI + masks
 tempfrontFFiall = [];
@@ -16,12 +16,14 @@ channel_nb = 0;
 for participanti = 1:length(participants)
    
     tempfrontFFiall = squeeze(cat(3,tempfrontFFiall, Temporo_front.(char(participants(participanti))).data));
-    tempfrontFFm = tempfrontFFm + Temporo_front.(char(participants(participanti))).sigMask;
-    tempfrontFFmr = tempfrontFFmr + Temporo_front.(char(participants(participanti))).sigMaskR;
-    tempfrontFFms = tempfrontFFms + Temporo_front.(char(participants(participanti))).sigMaskS;
+    tempfrontFFm = tempfrontFFm + (Temporo_front.(char(participants(participanti))).sigMask / Temporo_front.(char(participants(participanti))).nbchan);
+    tempfrontFFmr = tempfrontFFmr + (Temporo_front.(char(participants(participanti))).sigMaskR/ Temporo_front.(char(participants(participanti))).nbchan);
+    tempfrontFFms = tempfrontFFms + (Temporo_front.(char(participants(participanti))).sigMaskS/ Temporo_front.(char(participants(participanti))).nbchan);
     tempfrontFFmi1 = squeeze(cat(2,tempfrontFFmi1, Temporo_front.(char(participants(participanti))).MI1));
     tempfrontFFmi2 = squeeze(cat(2,tempfrontFFmi2, Temporo_front.(char(participants(participanti))).MI2));
-    channel_nb = channel_nb + Temporo_front.(char(participants(participanti))).nbchan;
+
+    participants(participanti)
+    Temporo_front.(char(participants(participanti))).nbchan
 
 end
 
@@ -30,9 +32,6 @@ frontFFir = frontFFi;
 frontFFis = frontFFi;
 frontFFir(frontFFi <= 0 ) = 0;
 frontFFis(frontFFi >= 0 ) = 0;
-
-tempfrontFFmi1 = cat(2,tempfrontFFmi1,tempfrontFFmi1);
-tempfrontFFmi2 = cat(2,tempfrontFFmi2,tempfrontFFmi2);
 
 
 %% PLOT FRONTAL AVERAGE
@@ -62,7 +61,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
-imagesc(times,times,tempfrontFFm./channel_nb);
+imagesc(times,times,tempfrontFFm);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -86,7 +85,7 @@ colormap(ax(4), redblue)
 
 %Redundant mask
 ax(6) = nexttile(9);
-imagesc(times,times,tempfrontFFmr./channel_nb);
+imagesc(times,times,tempfrontFFmr);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -95,7 +94,7 @@ colorbar;
 
 %Synergy mask
 ax(7) = nexttile(12);
-imagesc(times,times,tempfrontFFms./channel_nb);
+imagesc(times,times,tempfrontFFms);
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);

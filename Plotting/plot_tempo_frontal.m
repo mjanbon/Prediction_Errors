@@ -19,6 +19,7 @@ colormap(ax(1), redblue)
 %MI1
 ax(12) = nexttile(2);
 stdshade_acj(tempfrontFFmi1',.2,'g',timing);
+title(strcat(participant_name,' ',condition,' temporo-frontal'))
 xlim(xlimits);  ylim(ylimit_MI);
 set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
 
@@ -31,6 +32,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
 imagesc(timing,timing,tempfrontFFm./tempfront_nb);
+title(num2str(tempfront_nb));
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);

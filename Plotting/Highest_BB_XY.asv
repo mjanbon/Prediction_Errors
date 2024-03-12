@@ -1,0 +1,74 @@
+load('Nr_MI_data.mat')
+
+MI_temp_nr = MI_stat.Nr.XY_BB.MI.E24;
+Sig_temp_nr = MI_stat.Nr.XY_BB.sigMask.E24;
+
+MI_front_nr = MI_stat.Nr.XY_BB.MI.E33;
+Sig_front_nr = MI_stat.Nr.XY_BB.sigMask.E33;
+% 
+% load('Ji_MI_data.mat')
+% 
+% MI_temp_ji = MI_stat.Ji.XY_BB.MI.E15;
+% Sig_temp_ji = MI_stat.Ji.XY_BB.sigMask.E15;
+% 
+% MI_front_ji = MI_stat.Ji.XY_BB.MI.E18;
+% Sig_front_ji = MI_stat.Ji.XY_BB.sigMask.E18;
+
+timing = 700:2:1148;
+
+xlimits = [700 1150];
+ylimits_CoI = [700 1150];
+ylimit_MI = [-0.005 0.15];
+xticks_CoI = 800:150:1100;
+yticks_CoI = 800:150:1100;
+yticks_MI = [0 0.15];
+x_labels = 0:150:300;
+y_labels_CoI = 0:150:300;
+y_labels_MI = [0 0.15];
+
+figure (1)
+%NR_temporal
+plot(timing, MI_temp_nr );
+title('Nr temporal')
+hold on;
+xlabel('Time [ms]');
+xlim(xlimits);  ylim(ylimit_MI);
+set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
+pos_sigbar = yLimits(2) - (0.07 * range(yLimits));
+stat=logical(Sig_temp_nr);
+ylim(yLimits);
+ylabel('Mutual information (bits)');
+
+EoI_list = false;
+for tIdx = 1:length(timing)-1
+    tIdx2 = timing(tIdx);
+    tIdx2_1 = timing(tIdx+1);
+    if stat(tIdx) > 0
+        plot([tIdx2, tIdx2_1], [pos_sigbar, pos_sigbar], 'LineWidth', 3, 'Color', 'm');
+        EoI_list = true;
+    end
+end
+hold off
+
+%NR_temporal
+figure (2)
+plot(timing, MI_front_nr );
+title('Nr temporal')
+hold on;
+xlabel('Time [ms]');
+xlim(xlimits);  ylim(ylimit_MI);
+set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
+pos_sigbar = yLimits(2) - (0.07 * range(yLimits));
+stat=logical(Sig_front_nr);
+ylim(yLimits);
+ylabel('Mutual information (bits)');
+
+EoI_list = false;
+for tIdx = 1:length(timing)-1
+    tIdx2 = timing(tIdx);
+    tIdx2_1 = timing(tIdx+1);
+    if stat(tIdx) > 0
+        plot([tIdx2, tIdx2_1], [pos_sigbar, pos_sigbar], 'LineWidth', 3, 'Color', 'm');
+        EoI_list = true;
+    end
+end

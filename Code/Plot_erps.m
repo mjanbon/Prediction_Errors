@@ -1,5 +1,5 @@
 %Gets ERPs for specified condition and participant
-
+eeglab
 [basefold, datatype, participantnum, ~, condition, participants, ~, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
 [std, dvt] = impiEEG(participantnum, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length);
 
@@ -78,14 +78,15 @@ dvt_data_minus_mean = permute(dvt_data_minus_mean,[3 1 2]);
 std_data_minus_mean = permute(std_data_minus_mean,[3 1 2]);
 
 %Get rid of timepoints we are not interested in for efficiency
-dvt_data_minus_mean(:,:,start_cut_off) = [];
-std_data_minus_mean(:,:,start_cut_off) = [];
-dvt.times (start_cut_off) = [];
+% dvt_data_minus_mean(:,:,start_cut_off) = [];
+% std_data_minus_mean(:,:,start_cut_off) = [];
+% dvt.times (start_cut_off) = [];
+% 
+% dvt_data_minus_mean(:,:,end_cut_off:end) = [];
+% std_data_minus_mean(:,:,end_cut_off:end) = [];
+% dvt.times (end_cut_off:end) = [];
 
-dvt_data_minus_mean(:,:,end_cut_off:end) = [];
-std_data_minus_mean(:,:,end_cut_off:end) = [];
-dvt.times (end_cut_off:end) = [];
-
+timing = dvt.times
         
 %% PLOT ERPS
 
@@ -96,7 +97,6 @@ dvt.times (end_cut_off:end) = [];
            nexttile(ch)
            stdshade_acj(squeeze(std_data_minus_mean(ch,:,:))',0.2,'k',dvt.times); hold on
            stdshade_acj(squeeze(dvt_data_minus_mean(ch,:,:))',0.2,'g',dvt.times);
-            set(gca,'xlim',[700 1150],'ylim',[-100 100],'xtick',[800 950 1100], 'xticklabel', [0, 150, 300],'ytick',[-100 100], 'yticklabel', [-100 100]);
            hold off
         end
 %________________________________________________________________________________________________________________________________________________________

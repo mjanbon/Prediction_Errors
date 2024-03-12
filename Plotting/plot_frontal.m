@@ -11,6 +11,7 @@ tiledlayout(4,3,'TileSpacing','Compact');
 ax(1) = nexttile(5);
 set (gcf,'renderer','Painters','Position', [10 10 800 450]);
 contourf(timing,timing,frontFFi, 50,'linecolor','none');
+
 hold on
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits);
@@ -19,6 +20,7 @@ colormap(ax(1), redblue)
 %MI1
 ax(12) = nexttile(2);
 stdshade_acj(frontFFmi1',.2,'g',timing);
+title(strcat(participant_name,' ',condition,' frontal within'))
 xlim(xlimits);  ylim(ylimit_MI);
 set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xticklabel', x_labels);
 
@@ -31,6 +33,7 @@ set(gca,'ytick',yticks_MI, 'yticklabel', y_labels_MI, 'xtick', xticks_CoI, 'xtic
 %Combined synergetic/redundant mask
 ax(2) = nexttile(6);
 imagesc(timing,timing,frontFFm./front_nb);
+title(num2str(front_nb));
 set(gca,'YDir','normal');
 xlim(xlimits);  ylim(ylimits_CoI);
 set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xticklabel', x_labels, 'clim', climits_mask);
@@ -70,7 +73,7 @@ set(gca,'ytick',yticks_CoI, 'yticklabel', y_labels_CoI, 'xtick',xticks_CoI, 'xti
 colormap(ax(7), flipud(bone))
 
 ax(1) = nexttile(1);
-set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', clim);
+set(gca,'ytick',[], 'yticklabel', [], 'xtick',[], 'xticklabel', [], 'clim', lims);
 colorbar; colormap(ax(1), redblue);
 
 filename = char(strcat(participant_name,'_frontal_within_', condition));

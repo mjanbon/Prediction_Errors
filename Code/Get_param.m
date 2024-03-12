@@ -24,25 +24,33 @@
 function [basefold, datatype, subject, all_con, condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(get_elec)
 %% TYPE OF DATA
 basefold = 'D:\iEEG\Data\All_data\';
-data_index = 2;
-datatypes = {'Cat_EcoG', 'Marmo_EcoG', 'Human_EcoG', 'Human_EEG'}; %change according to your datatypes
+data_index = 1;
+datatypes = {'Cat_EcoG', 'Marmo_EcoG', 'Human_EcoG', 'Human_EEG', 'Human_attention'}; %change according to your datatypes
 datatype = char(datatypes(data_index));
 
 %% PARTICIPANT
-subject   =  1;
+subject   = 1 ;
 
 % CAT_ECOG
-% participants = {'Negri'};
+participants = {'Negri'};
 %MARMOSETS
-participants = {'Ji' 'Nr'};
+% participants = {'Ji' 'Nr'};
 %HUMAN_ECOG
 % participants = {'HEC010_CG' 'HEC011_RE' 'HEC013_DR' 'HRM011_MC' 'HRM014_VT'};
 %HUMAN_EEG
 %participants = {'P1};
+% Human_attention 
+% participants = {'AML' 'CSJ' 'EOW' 'FOD' 'JLL' 'MOM' 'OSN' 'PAS' 'RSM' 'TMC' 'VLB'};
+
 
 %% CONDITION
 pick_con = 2;
-all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
+%Monkeys
+% all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
+%Cats
+all_con = {'XX' 'rowing'};
+%Human attention
+% all_con = {'attention' 'counting'};
 condition = char(all_con(pick_con));
 
 %% ELECTRODES OF INTEREST
@@ -58,8 +66,8 @@ end
 %Re-epoch or not, and the epoching parameters
 re_epoch = 0; % 1 = re-epoch
 if re_epoch == 1
-    dev_epochs = {'LAX3' 'LAY1'  'LBX3'  'LBY1'  'RAX3'  'RAY1'  'RBX3'  'RBY1'};
-    std_epochs = {'LAX1' 'LAY3'  'LBX1'  'LBY3'  'RAX1'  'RAY3'  'RBX1'  'RBY3'};
+    dev_epochs = {'200'};
+    std_epochs = {'100'};
     epoch_length = [-0.2 0.4];
 else
     dev_epochs = [];
@@ -68,15 +76,15 @@ else
 end
 
 %% FILTERING & DATA
-srate = 500;        %Sampling rate
-low_cutoff = 0;     %low-cut filter
-high_cutoff = 40;   %high_cut filter
-filt_order = 330;   %filter order
+srate = 500;%Sampling rate
+low_cutoff = 1;%low-cut filter
+high_cutoff = 40;%high_cut filter
+% filt_order = 330;%filter order
 
 %Define baseline normalisation, cutt-off points for trials (time period of
 %interest), and number of permutations for CoI
-baseline = 851:900;
-start_cut_off = 1:850;
+baseline = 1:50;
+start_cut_off = 1:100;
 end_cut_off = 226; %:end
-kperm = 2;
+kperm = 10;
 end

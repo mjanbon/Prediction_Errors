@@ -4,6 +4,7 @@
 % into a mat-file.
 
 clear all
+eeglab
 
 %Get the parameters for the participant and datatype you wants
 [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
@@ -12,6 +13,8 @@ clear all
 for i = 1: length(participants)
     for con = 1:length(all_con)
         %% IMPORT DATA
+        participants(i)
+        all_con(con)
         % Import data and check for same amount of trials & channels
         [dvt, std] = impiEEG(i, basefold, datatype, all_con(con), srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length);
 
@@ -63,78 +66,78 @@ for i = 1: length(participants)
         bb_dev = permute(bb1_dev_bl,[3 1 2]);
         bb_std = permute(bb1_std_bl,[3 1 2]);
 
-    %% CALCULATE MUTUAL INFORMATION & PERFORM PERMUTATION TESTING USING GCMI
-    
-    elec_of_I = {};
-    H = figure(con);
-    for ch = 1 : dvt.nbchan
-        chnum = strcat('ch_',string(ch));
-        dat.class1.BB = squeeze(bb_dev(:, ch, :));
-        dat.class2.BB = squeeze(bb_std(:, ch, :));
+        %% CALCULATE MUTUAL INFORMATION & PERFORM PERMUTATION TESTING USING GCMI
 
-        %Calculate MI between the specified channels
-        [MI, sigMask] = cnm_MI_stimtime([dat.class1.BB; dat.class2.BB],[zeros(1, size(bb_dev,1)), ones(1, size(bb_dev,1))]', kperm);
-        
-        %save
-        chan_name = strcat('E',num2str(ch));
-        MI_stat.(participants{i}).(all_con{con}).MI.(chan_name) = MI;
-        MI_stat.(participants{i}).(all_con{con}).electrode = chan_name;
-        MI_stat.(participants{i}).(all_con{con}).sigMask.(chan_name)= sigMask;
+        elec_of_I = {};
+        h = figure(con);
+        for ch = 1 : dvt.nbchan
+            chnum = strcat('ch_',string(ch));
+            dat.class1.BB = squeeze(bb_dev(:, ch, :));
+            dat.class2.BB = squeeze(bb_std(:, ch, :));
 
-        %% PLOT
-        %get correct timing
-        timing = dvt.times;
-        timing(start_cut_off) = [];
-        timing(end_cut_off:end) = [];
-        timing = timing';
-        
-        %plot MI
-        nexttile(ch)
-        plot(timing, MI_stat.(participants{i}).(all_con{con}).MI.(chan_name));
-        title(chan_name)
-        hold on;
-        xlabel('Time [ms]');
-        yLimits = [-0.001 0.1];
-%         xlim([0.7 1.150])
-        pos_sigbar = yLimits(2) - (0.07 * range(yLimits));
+            %Calculate MI between the specified channels
+            [MI, sigMask] = cnm_MI_stimtime([dat.class1.BB; dat.class2.BB],[zeros(1, size(bb_dev,1)), ones(1, size(bb_dev,1))]', kperm);
 
-        % Draw stats
-        stat=logical(MI_stat.(participants{i}).(all_con{con}).sigMask.(chan_name));
-        ylim(yLimits);
-        ylabel('Mutual information (bits)');
+            %save
+            chan_name = strcat('E',num2str(ch));
+            MI_stat.(participants{i}).(all_con{con}).MI.(chan_name) = MI;
+            MI_stat.(participants{i}).(all_con{con}).electrode = chan_name;
+            MI_stat.(participants{i}).(all_con{con}).sigMask.(chan_name)= sigMask;
 
-        EoI_list = false;
-        for tIdx = 1:length(timing)-1
-            tIdx2 = timing(tIdx);
-            tIdx2_1 = timing(tIdx+1);
-            if stat(tIdx) > 0
-                plot([tIdx2, tIdx2_1], [pos_sigbar, pos_sigbar], 'LineWidth', 3, 'Color', 'm');
-                EoI_list = true;
+            %% PLOT
+            %get correct timing
+            timing = dvt.times;
+            timing(start_cut_off) = [];
+            timing(end_cut_off:end) = [];
+            timing = timing';
+
+            %plot MI
+            nexttile(ch)
+            plot(timing, MI_stat.(participants{i}).(all_con{con}).MI.(chan_name));
+            title(chan_name)
+            hold on;
+            xlabel('Time [ms]');
+            yLimits = [-0.001 0.1];
+            %         xlim([0.7 1.150])
+            pos_sigbar = yLimits(2) - (0.07 * range(yLimits));
+
+            % Draw stats
+            stat= logical(MI_stat.(participants{i}).(all_con{con}).sigMask.(chan_name));
+            ylim(yLimits);
+            ylabel('Mutual information (bits)');
+
+            EoI_list = false;
+            for tIdx = 1:length(timing)-1
+                tIdx2 = timing(tIdx);
+                tIdx2_1 = timing(tIdx+1);
+                if stat(tIdx) > 0
+                    plot([tIdx2, tIdx2_1], [pos_sigbar, pos_sigbar], 'LineWidth', 3, 'Color', 'm');
+                    EoI_list = true;
+                end
             end
+
+            %List electrodes of interest
+            if EoI_list == true
+                chan = (MI_stat.(participants{i}).(all_con{con}).electrode(i));
+                chan = replace(chan,'-','_');
+                Electorodes.(chan_name) = chan_name;
+            end
+            hold off
         end
-        
-        %List electrodes of interest
-        if EoI_list == true
-            chan = (MI_stat.(participants{i}).(all_con{con}).electrode(i));
-            chan = replace(chan,'-','_');
-            Electorodes.(chan_name) = chan_name;
-        end
-        hold off
+        %
+        %% SAVE ALL
+        basename = strcat (participants(i), 'MIs.mat');
+        EoI_names = strcat (participants(i), 'EoI.mat');
+        cd (basefold)
+        saveas(h,strcat(char(participants(i)),'_MI_figures_local'),'fig');
+        EoI.(char(participants(i))).(char(all_con(con))) = Electorodes;
+        EoI.(char(participants(i))).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(all_con(con))));
+        MI_name = char(strcat(participants(i),char(all_con(con)),'_MI_data.mat'));
+        save (MI_name,'MI_stat','-mat')
+        clear Electorodes
+        clear MI_stat
+
     end
-    
-    %% SAVE ALL
-    basename = strcat (participants(i), 'MIs.mat');
-    EoI_names = strcat (participants(i), 'EoI.mat');
-    cd (basefold)
-    saveas(H,strcat(char(participants(i)),'_MI_figures_local'),'fig');
-    EoI.(char(participants(i))).(char(all_con(con))) = Electorodes;
-    EoI.(char(participants(i))).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(all_con(con))));
-    MI_name = char(strcat(participants(i),'_MI_data.mat'));
-    save (MI_name,'MI_stat','-mat')
-    clear Electorodes
-    clear MI_stat
-   
-end
 end
 filename = strcat('EoI_data_',datatype,'.mat');
 save (filename,'EoI','-mat')
