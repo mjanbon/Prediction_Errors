@@ -4,6 +4,8 @@ This repository contains scripts for estimating mutual information and co-inform
 
 I have tested this with the marmoset-data, and it is working for me at least, but let me know of any problems!
 
+Maxime has made additions to this pipeline in order for it to work with Drosophila data.
+
 Data-folder
 ----------------------------
 
