@@ -165,8 +165,8 @@ for i = 1: length(participants)
 
     end
 end
-cd ../
-filename = strcat('DataEoI','\EoI_data_',datatype,'.mat');
+cd('DataEoI')
+filename = strcat('EoI_data_', datatype,'.mat');
 save (filename,'EoI','-mat')
 
 
