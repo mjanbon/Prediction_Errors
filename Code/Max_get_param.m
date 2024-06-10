@@ -41,7 +41,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R290721'};
+participants = {'R230720'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -54,7 +54,7 @@ pick_block = 1;
 % all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 
 %Drosophila
-all_con = {'B1'};
+all_con = {'B2'};
 
 condition = char(all_con(pick_block));
 
@@ -89,11 +89,11 @@ end
 % end
 
 %% FILTERING & DATA
-srate = 200; %Sampling rate
-% deviant_group_number = [3, 4]; %Deviant group in groupHyper for awake
-deviant_group_number = [5,11]; %Deviant group in groupHyper for sleep/wake
-% standard_group_number =[1, 2]; %Carrier group in groupHyper for awake
-standard_group_number =[2, 10]; %Carrier group in groupHyper for sleep/wake
+srate = 1000; %Sampling rate
+deviant_group_number = [3, 4]; %Deviant group in groupHyper for awake
+% deviant_group_number = [5,11]; %Deviant group in groupHyper for sleep/wake
+standard_group_number =[1, 2]; %Carrier group in groupHyper for awake
+% standard_group_number =[2, 10]; %Carrier group in groupHyper for sleep/wake
 
 corrected = 0; % Using filtered and normalised data or not
 stim_onset = 25;
