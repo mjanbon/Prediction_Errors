@@ -24,11 +24,14 @@
 %function [basefold, datatype, subject, all_con, condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(get_elec)
 function [basefold, datatype,all_con, condition,subject,participants, EoI,...
     srate, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
-    start_cut_off, end_cut_off, kperm] = Max_get_param(get_elec)
+    start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC, get_elec)
 %% TYPE OF DATA
-basefold = '/home/mj649/rds/hpc-work/Drosophila_Data';
-% current_folder = pwd;
-% basefold = strcat(current_folder, '\Data\');
+if USING_HPC == 1
+    basefold = '/home/mj649/rds/hpc-work/Drosophila_Data/';
+elseif USING_HPC == 0
+    current_folder = pwd;
+    basefold = strcat(current_folder, '\Data\');
+end
 data_index = 2;
 datatypes = {'Marmo_EcoG', 'Drosophila_LFP'}; %change according to your datatypes
 datatype = char(datatypes(data_index));
@@ -87,8 +90,11 @@ end
 
 %% FILTERING & DATA
 srate = 200; %Sampling rate
-deviant_group_number = 4; %Deviant group in groupHyper
-standard_group_number = 8; %Carrier group in groupHyper
+% deviant_group_number = [3, 4]; %Deviant group in groupHyper for awake
+deviant_group_number = [5,11]; %Deviant group in groupHyper for sleep/wake
+% standard_group_number =[1, 2]; %Carrier group in groupHyper for awake
+standard_group_number =[2, 10]; %Carrier group in groupHyper for sleep/wake
+
 corrected = 0; % Using filtered and normalised data or not
 stim_onset = 25;
 %low_cutoff = 1;%low-cut filter
@@ -100,5 +106,5 @@ stim_onset = 25;
 baseline = 1:5;
 start_cut_off = 1;
 end_cut_off = 95; %:end
-kperm = 100;
+kperm = 500;
 end

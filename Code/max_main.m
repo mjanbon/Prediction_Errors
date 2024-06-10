@@ -1,17 +1,19 @@
 function main(task_id)
 %%MAIN Entry point of Matlab SLURM job
-
+USING_HPC = 1;
 %% Step 1: define parameter settings
-addpath(genpath('/home/mj649/CNM')); % Add matlab paths to code folders and subfolders
-addpath(genpath('/home/mj649/GCMI_master'));
-addpath(genpath('/home/mj649/coIcode'));
+if USING_HPC == 1
+    addpath(genpath('/home/mj649/CNM')); % Add matlab paths to code folders and subfolders
+    addpath(genpath('/home/mj649/GCMI_master'));
+    addpath(genpath('/home/mj649/Prediction_Errors'));
+end
 
 % eeglab
 
 %Get parameters for the analysis
 [basefold, datatype,all_con, condition, subject, participants, EoI,...
     srate, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
-    start_cut_off, end_cut_off, kperm] = Max_get_param(1);
+    start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC,1);
 %[basefold, datatype, subject, ~ , condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(1);
 
 %Get permutations
