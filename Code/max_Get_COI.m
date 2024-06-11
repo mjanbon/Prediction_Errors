@@ -8,7 +8,7 @@ function [MI_stat]  = max_Get_COI(electrodes,basefold, datatype,...
     standard_group_number,corrected, srate, baseline, kperm)
 %addpath('/home/jma201/coi-ieeg')
 %addpath('/home/jma201/iEEG')
-overVar_file = strcat(basefold, datatype, '\', participants(participant), '_', condition, '.mat');
+overVar_file = strcat(basefold, datatype, '/', participants(participant), '_', condition, '.mat');
 [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number,...
     corrected, srate);
 
