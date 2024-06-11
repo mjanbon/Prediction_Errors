@@ -67,7 +67,7 @@ condition = char(all_con(pick_block));
 %     EoI = [];
 % end
 if get_elec == 1
-    EOI_filename = strcat(basefold, 'DataEOI\', 'EoI_data','_',datatype);
+    EOI_filename = strcat(basefold, 'DataEOI/', 'EoI_data','_',datatype,'.mat');
     load(EOI_filename);
     EoI = EoI.(char(participants(subject))).(char(condition));
 else
