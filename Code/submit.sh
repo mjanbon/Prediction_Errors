@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p icelake
-#SBATCH -t 00:05:00
+#SBATCH -t 00:10:00
 #SBATCH --array=1-450
 #SBATCH -J Drosophila_CoI_R23
 #SBATCH -o logs/Drosophila_CoI_R23_%A_%a.out
