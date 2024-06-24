@@ -5,13 +5,13 @@
 
 clear all
 
-
+USING_HPC = 1;
 %Get the parameters for the participant and datatype you want
 % [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
 
 [basefold, datatype, all_con, condition, subject,participants, EoI,...
     srate, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
-    start_cut_off, end_cut_off, kperm] = Max_get_param(0);
+    start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC, 0);
 
 
 %%
@@ -150,24 +150,33 @@ for i = 1: length(participants)
         if corrected==1
             c_tag='C';
         end
-        cd('MI_Figures')
-        saveas(h,strcat(char(participants(i)),'_',c_tag, string(standard_group_number),...
-            string(deviant_group_number),'_MI_figures_local'),'fig');
-        saveas(H,strcat(char(participants(i)),'_',c_tag,string(standard_group_number),...
-            string(deviant_group_number),'_ERPs_local'),'fig');
+        cd('MI_Figures') % Save MI figures for the fly
+
+        saveas(h,strcat(char(participants(i)),'_',c_tag, num2str(standard_group_number),...
+            num2str(deviant_group_number),'_MI_figures_local'),'fig');
+        saveas(H,strcat(char(participants(i)),'_',c_tag, num2str(standard_group_number),...
+            num2str(deviant_group_number),'_ERPs_local'),'fig');
         cd ../
-        EoI.(char(participants(i))).(char(all_con(con))) = Electorodes;
-        EoI.(char(participants(i))).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(all_con(con))));
         MI_name = char(strcat(participants(i),char(all_con(con)),'_MI_data.mat'));
         save (MI_name,'MI_stat','-mat')
+
+        
+        cd('DataEoI') % Save CoI data for the fly
+        filename = strcat('EoI_data_', datatype,'.mat');
+        if exist(filename,'file')
+            load("EoI_data_Drosophila_LFP.mat","EoI")
+        end
+        EoI.(char(participants(i))).(char(all_con(con))) = Electorodes;
+        EoI.(char(participants(i))).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(all_con(con))));
+        save (filename,'EoI','-mat');
+
+        cd ../
         clear Electorodes
         clear MI_stat
 
     end
 end
-cd('DataEoI')
-filename = strcat('EoI_data_', datatype,'.mat');
-save (filename,'EoI','-mat')
+
 
 
 
