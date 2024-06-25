@@ -3,9 +3,9 @@ function main(task_id)
 USING_HPC = 1;
 %% Step 1: define parameter settings
 if USING_HPC == 1
-    addpath(genpath('/home/mj649/CNM')); % Add matlab paths to code folders and subfolders
-    addpath(genpath('/home/mj649/GCMI_master'));
-    addpath(genpath('/home/mj649/Prediction_Errors'));
+    addpath(genpath('/home/mj649/rds/hpc-work/CNM')); % Add matlab paths to code folders and subfolders
+    addpath(genpath('/home/mj649/rds/hpc-work/GCMI_master'));
+    addpath(genpath('/home/mj649/rds/hpc-work/Prediction_Errors'));
 end
 
 % eeglab
@@ -35,7 +35,7 @@ param_table = table(S(:), C(:), D(:), 'VariableNames', {'Subject', 'Condition', 
 
 
 %% Step 2: Fetch task_id from command-line
-%task_id = 3;
+%task_id = 1;
 params = table2struct(param_table(task_id, :));
 %params.data_folder = data_folder;
 
