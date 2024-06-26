@@ -41,7 +41,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R280721'};
+participants = {'R290721'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
