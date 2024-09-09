@@ -23,7 +23,7 @@
 
 %function [basefold, datatype, subject, all_con, condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(get_elec)
 function [basefold, datatype,all_con, condition,subject,participants, EoI,...
-    srate, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
+    srate, activity_tag, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
     start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC, get_elec)
 %% TYPE OF DATA
 if USING_HPC == 1
@@ -41,7 +41,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R290721'};
+participants = {'R280721'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -54,46 +54,31 @@ pick_block = 1;
 % all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 
 %Drosophila
-all_con = {'B1'};
+all_con = {'BSLEEP'};
 
 condition = char(all_con(pick_block));
 
-%% ELECTRODES OF INTEREST
-%Import the electrodes of interest from the mat-file (Run MI_ERP to get this)
-% if get_elec == 1
-%     [EoI] = EoI_data(basefold,datatype,all_con, subject, condition);
-%     EoI = EoI.(char(participants(subject))).(char(condition));
-% else
-%     EoI = [];
-% end
-if get_elec == 1
-    EOI_filename = strcat(basefold, 'DataEOI/', 'EoI_data','_',datatype,'.mat');
-    load(EOI_filename);
-    EoI = EoI.(char(participants(subject))).(char(condition));
-else
-    EoI = [];
+%% FILTERING & DATA
+activity_tag = 'mid_sleep';
+if strcmp(activity_tag, 'mid_sleep') == 1
+    deviant_group_number = [43,44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
+    standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
+    srate = 200;
+elseif strcmp(activity_tag, 'beginning_sleep') == 1
+    deviant_group_number = [43,44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
+    standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
+    srate = 200;
 end
 
 
-%% EPOCHING
-%Re-epoch or not, and the epoching parameters
-% re_epoch = 0; % 1 = re-epoch
-% if re_epoch == 1
-%     dev_epochs = {'200'};
-%     std_epochs = {'100'};
-%     epoch_length = [-0.2 0.4];
-% else
-%     dev_epochs = [];
-%     std_epochs = [];
-%     epoch_length = [];
-% end
-
-%% FILTERING & DATA
-srate = 200; %Sampling rate
-% deviant_group_number = [3, 4]; %Deviant group in groupHyper for awake
-deviant_group_number = [5,11]; %Deviant group in groupHyper for sleep/wake
-% standard_group_number =[1, 2]; %Carrier group in groupHyper for awake
-standard_group_number =[2, 10]; %Carrier group in groupHyper for sleep/wake
+% srate = 200; %Sampling rate
+% %deviant_group_number = [3, 4]; %Deviant group in groupHyper for awake
+% % deviant_group_number = [5,11]; %Deviant group in groupHyper for sleep/wake
+% deviant_group_number = [43,44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
+% 
+% %standard_group_number = [1, 2]; %Carrier group in groupHyper for awake
+% % standard_group_number =[2, 10]; %Carrier group in groupHyper for sleep/wake
+% standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
 
 corrected = 0; % Using filtered and normalised data or not
 stim_onset = 25;
@@ -107,4 +92,20 @@ baseline = 1:5;
 start_cut_off = 1;
 end_cut_off = 95; %:end
 kperm = 500;
+
+%% ELECTRODES OF INTEREST
+%Import the electrodes of interest from the mat-file (Run MI_ERP to get this)
+% if get_elec == 1
+%     [EoI] = EoI_data(basefold,datatype,all_con, subject, condition);
+%     EoI = EoI.(char(participants(subject))).(char(condition));
+% else
+%     EoI = [];
+% end
+if get_elec == 1
+    EOI_filename = strcat(basefold, 'DataEOI/', 'EoI_data','_',datatype,'.mat');
+    load(EOI_filename,'EoI');
+    EoI = EoI.(char(participants(subject))).(char(activity_tag)).(char(condition));
+else
+    EoI = [];
+end
 end

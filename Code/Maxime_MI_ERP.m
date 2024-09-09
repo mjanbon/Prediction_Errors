@@ -10,7 +10,7 @@ USING_HPC = 1;
 % [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
 
 [basefold, datatype, all_con, condition, subject,participants, EoI,...
-    srate, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
+    srate, activity_tag, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
     start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC, 0);
 
 
@@ -152,12 +152,14 @@ for i = 1: length(participants)
         end
         cd('MI_Figures') % Save MI figures for the fly
 
-        saveas(h,strcat(char(participants(i)),'_',c_tag, num2str(standard_group_number),...
+        saveas(h,strcat(char(participants(i)),'_', char(activity_tag), '_',...
+            c_tag, num2str(standard_group_number),...
             num2str(deviant_group_number),'_MI_figures_local'),'fig');
-        saveas(H,strcat(char(participants(i)),'_',c_tag, num2str(standard_group_number),...
+        saveas(H,strcat(char(participants(i)),'_', char(activity_tag), '_',...
+            c_tag, num2str(standard_group_number),...
             num2str(deviant_group_number),'_ERPs_local'),'fig');
         cd ../
-        MI_name = char(strcat(participants(i),char(all_con(con)),'_MI_data.mat'));
+        MI_name = char(strcat(participants(i),char(activity_tag),char(all_con(con)),'_MI_data.mat'));
         save (MI_name,'MI_stat','-mat')
 
         
@@ -166,8 +168,8 @@ for i = 1: length(participants)
         if exist(filename,'file')
             load("EoI_data_Drosophila_LFP.mat","EoI")
         end
-        EoI.(char(participants(i))).(char(all_con(con))) = Electorodes;
-        EoI.(char(participants(i))).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(all_con(con))));
+        EoI.(char(participants(i))).(char(activity_tag)).(char(all_con(con))) = Electorodes;
+        EoI.(char(participants(i))).(char(activity_tag)).(char(all_con(con))) = fieldnames(EoI.(char(participants(i))).(char(activity_tag)).(char(all_con(con))));
         save (filename,'EoI','-mat');
 
         cd ../
