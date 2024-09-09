@@ -1,5 +1,6 @@
 function max_main(task_id)
 %%MAIN Entry point of Matlab SLURM job
+tic
 USING_HPC = 1;
 %% Step 1: define parameter settings
 if USING_HPC == 1
@@ -61,4 +62,5 @@ if ~exist(results_folder, 'dir'); mkdir(results_folder); end
 CoI.(patname) = data;
 cd (results_folder)
 save (patname, 'CoI', '-v7.3' )
+toc
 end
