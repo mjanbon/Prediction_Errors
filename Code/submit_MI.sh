@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH -p icelake
-#SBATCH -t 00:05:00
+#SBATCH -t 00:10:00
 #SBATCH -N 1
 #SBATCH -J Drosophila_MI_R28
 #SBATCH -o logs/Drosophila_MI_R28_%A_%a.out
