@@ -8,6 +8,11 @@ function main_MI_ERP(task_id)
 USING_HPC = 1;
 %Get the parameters for the participant and datatype you want
 % [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
+if USING_HPC == 1
+    addpath(genpath('/home/mj649/rds/hpc-work/CNM')); % Add matlab paths to code folders and subfolders
+    addpath(genpath('/home/mj649/rds/hpc-work/GCMI_master'));
+    addpath(genpath('/home/mj649/rds/hpc-work/Prediction_Errors'));
+end
 
 [basefold, datatype, all_con, condition, subject,participants, EoI,...
     srate, activity_tag, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
@@ -128,7 +133,7 @@ for i = 1: length(participants)
 
         % dvt_data_minus_mean = permute(dvt_data_minus_mean,[2 3 1]);
         % std_data_minus_mean = permute(std_data_minus_mean,[2 3 1]);
-        H = figure(2);
+        H = figure(length(all_con)+1);
         for ch = 1 : dvt.nbchan
            nexttile(ch)
            chan_name = strcat('E',num2str(ch));
