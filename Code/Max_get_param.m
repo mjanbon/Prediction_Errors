@@ -102,7 +102,7 @@ kperm = 500;
 %     EoI = [];
 % end
 if get_elec == 1
-    EOI_filename = strcat(basefold, 'DataEOI/', 'EoI_data','_',datatype,'.mat');
+    EOI_filename = strcat(basefold, 'DataEoI/', 'EoI_data','_',datatype,'.mat');
     load(EOI_filename,'EoI');
     EoI = EoI.(char(participants(subject))).(char(activity_tag)).(char(condition));
 else
