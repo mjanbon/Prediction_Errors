@@ -28,10 +28,12 @@ for electrodi = 1:length(EoI)
     end
     permutations = vertcat(permutations,elecs);
 end
-electrode_x_electrode = permutations(task_id);       
+
 %Make table of all the permutations
-[S, C, D] = ndgrid(subject, condition, permutations);
-param_table = table(S(:), C(:), D(:), 'VariableNames', {'Subject', 'Condition', 'electrode_x_electrode'});
+[D]=ndgrid(permutations);
+%[S, C, D] = ndgrid(subject, condition, permutations);
+param_table = table(D(:), 'VariableNames', {'electrode_x_electrode'});
+%param_table = table(S(:), C(:), D(:), 'VariableNames', {'Subject', 'Condition', 'electrode_x_electrode'});
 %data_folder = strcat(basefold,'Co_I');
 
 
@@ -45,13 +47,13 @@ params = table2struct(param_table(task_id, :));
 % [data] = max_Get_COI(params.electrode_x_electrode,basefold, datatype,...
 %     subject, all_con, condition, participants,deviant_group_number,...
 %     standard_group_number,corrected, srate, baseline, kperm);
-[data] = max_Get_COI(electrode_x_electrode,basefold, datatype,...
+[data] = max_Get_COI(params.electrode_x_electrode,basefold, datatype,...
     subject, all_con, condition, participants,deviant_group_number,...
     standard_group_number,corrected, srate, baseline, kperm);
 
 %participantname = participants(params.Subject);
 participantname = participants(subject);
-patname = char(strcat(participantname,'_', electrode_x_electrode));
+patname = char(strcat(participantname,'_', params.electrode_x_electrode));
 %results_dir = strcat(basefold,participantname,'_',condition);
 results_dir = strcat('/home/mj649/rds/hpc-work/Drosophila_Results/Drosophila_CoI/',...
     participantname,'_',activity_tag, '_', condition);
