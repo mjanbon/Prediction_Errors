@@ -51,7 +51,7 @@ params = table2struct(param_table(task_id, :));
 
 %participantname = participants(params.Subject);
 participantname = participants(subject);
-patname = char(strcat(participantname,'_', params.electrode_x_electrode));
+patname = char(strcat(participantname,'_', permutations(task_id)));
 %results_dir = strcat(basefold,participantname,'_',condition);
 results_dir = strcat('/home/mj649/rds/hpc-work/Drosophila_Results/Drosophila_CoI/',...
     participantname,'_',activity_tag, '_', condition);
