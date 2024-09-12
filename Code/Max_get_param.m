@@ -41,7 +41,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R280721'};
+participants = {'R060721'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -61,13 +61,13 @@ condition = char(all_con(pick_block));
 %% FILTERING & DATA
 activity_tag = 'mid_sleep';
 if strcmp(activity_tag, 'mid_sleep') == 1
-    deviant_group_number = [43,44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
+    deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
-    srate = 200;
+    srate = 1000;
 elseif strcmp(activity_tag, 'beginning_sleep') == 1
     deviant_group_number = [43,44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
-    srate = 200;
+    srate = 1000;
 end
 
 
