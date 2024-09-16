@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH -p icelake
 #SBATCH -t 00:30:00
-#SBATCH --array=5-6
+#SBATCH --array=7-225
 #SBATCH -J Drosophila_Sleep_CoI_R22
 #SBATCH -o logs/Drosophila_Sleep_CoI_R22_%A_%a.out
 #SBATCH -e logs/Drosophila_Sleep_CoI_R22_%A_%a.err
