@@ -41,7 +41,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R060721'};
+participants = {'R280721'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -59,7 +59,7 @@ all_con = {'BSLEEP'};
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'beginning_sleep';
+activity_tag = 'wake_200';
 if strcmp(activity_tag, 'mid_sleep') == 1
     deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
@@ -68,6 +68,18 @@ elseif strcmp(activity_tag, 'beginning_sleep') == 1
     deviant_group_number = [27, 28]; %Deviant group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
     standard_group_number = [21, 22]; %Carrier group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
     srate = 1000;
+elseif strcmp(activity_tag, 'only_wake_dataset') == 1
+    deviant_group_number = [3, 4]; %Deviant group in groupHyper for only wake dataset (wake)
+    standard_group_number = [1, 2]; %Carrier group in groupHyper for only wake dataset (wake)
+    srate = 1000;
+elseif strcmp(activity_tag, 'wake') == 1
+    deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake (wake)
+    standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake (wake)
+    srate = 1000;
+elseif strcmp(activity_tag, 'wake_200') == 1
+    deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake (wake)
+    standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake (wake)
+    srate = 200;
 end
 
 

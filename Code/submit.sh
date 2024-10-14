@@ -2,9 +2,9 @@
 #SBATCH -p icelake
 #SBATCH -t 00:30:00
 #SBATCH --array=1-225
-#SBATCH -J D_Start_Sleep_CoI_R06
-#SBATCH -o logs/D_Start_Sleep_CoI_R06_%A_%a.out
-#SBATCH -e logs/D_Start_Sleep_CoI_R06_%A_%a.err
+#SBATCH -J D_Wake_CoI_R28
+#SBATCH -o logs/D_Wake_CoI_R28_%A_%a.out
+#SBATCH -e logs/D_Wake_CoI_R28_%A_%a.err
 #SBATCH --mem 24000
 
 ###############################
