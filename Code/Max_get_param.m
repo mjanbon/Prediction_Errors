@@ -28,6 +28,8 @@ function [basefold, datatype,all_con, condition,subject,participants, EoI,...
 %% TYPE OF DATA
 if USING_HPC == 1
     basefold = '/home/mj649/rds/hpc-work/Drosophila_Data/';
+elseif USING_HPC == 2
+    basefold = '/data/SBBS-PIDProject/Maxime/Drosophila_Data/';
 elseif USING_HPC == 0
     current_folder = pwd;
     basefold = strcat(current_folder, '\Data\');
@@ -41,7 +43,7 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R280721'};
+participants = {'R230720'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -54,7 +56,7 @@ pick_block = 1;
 % all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 
 %Drosophila
-all_con = {'BSLEEP'};
+all_con = {'B2'};
 
 condition = char(all_con(pick_block));
 
@@ -77,8 +79,8 @@ elseif strcmp(activity_tag, 'wake') == 1
     standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake (wake)
     srate = 1000;
 elseif strcmp(activity_tag, 'wake_200') == 1
-    deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake (wake)
-    standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake (wake)
+    deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake at 200 Hz resampling frequency (wake)
+    standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake at 200 Hz resampling frequency (wake)
     srate = 200;
 end
 

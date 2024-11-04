@@ -9,7 +9,12 @@ if USING_HPC == 1
     addpath(genpath('/home/mj649/rds/hpc-work/Prediction_Errors'));
 end
 
-% eeglab
+if USING_HPC == 2 % Add matlab paths to code folders and subfolders on QMUL Apocrita
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/CNM')); % Add matlab paths to code folders and subfolders
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/GCMI_master'));
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/Prediction_Errors'));
+end
+
 
 %Get parameters for the analysis
 [basefold, datatype, all_con, condition, subject, participants, EoI,...
@@ -55,8 +60,14 @@ params = table2struct(param_table(task_id, :));
 participantname = participants(subject);
 patname = char(strcat(participantname,'_', params.electrode_x_electrode));
 %results_dir = strcat(basefold,participantname,'_',condition);
-results_dir = strcat('/home/mj649/rds/hpc-work/Drosophila_Results/Drosophila_CoI/',...
+if USING_HPC == 1
+    results_dir = strcat('/home/mj649/rds/hpc-work/Drosophila_Results/Drosophila_CoI/',...
     participantname,'_',activity_tag, '_', condition);
+elseif USING_HPC == 2
+    results_dir = strcat('/data/SBBS-PIDProject/Maxime/Drosophila_Results/Drosophila_CoI/',...
+    participantname,'_',activity_tag, '_', condition);
+end
+
 
 results_folder =  char(results_dir);
 if ~exist(results_folder, 'dir'); mkdir(results_folder); end
