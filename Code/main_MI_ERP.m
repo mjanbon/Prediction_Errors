@@ -170,8 +170,10 @@ for i = 1: length(participants)
             c_tag, num2str(standard_group_number),...
             num2str(deviant_group_number),'_ERPs_local'),'fig');
         cd ../
+        cd MI_Data
         MI_name = char(strcat(participants(i),char(activity_tag),char(all_con(con)),'_MI_data.mat'));
         save (MI_name,'MI_stat','-mat')
+        cd ../
 
         
         cd('DataEoI') % Save CoI data for the fly
