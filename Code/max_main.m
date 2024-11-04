@@ -1,7 +1,7 @@
 function max_main(task_id)
 %%MAIN Entry point of Matlab SLURM job
 tic
-USING_HPC = 1;
+USING_HPC = 2;
 %% Step 1: define parameter settings
 if USING_HPC == 1
     addpath(genpath('/home/mj649/rds/hpc-work/CNM')); % Add matlab paths to code folders and subfolders
