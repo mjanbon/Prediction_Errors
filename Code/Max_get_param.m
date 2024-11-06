@@ -43,7 +43,8 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R230720'};
+participants = {'R230720_1','R040820_1','R040820_2', 'R050820_1', 'R050820_2'...
+    , 'R060820_1', 'R060820_2'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -56,7 +57,7 @@ pick_block = 1;
 % all_con = {'XX' 'XY' 'XX_BB' 'XY_BB'};  %change according to your conditions
 
 %Drosophila
-all_con = {'B2'};
+all_con = {'B2WAKE','B3WAKE'};
 
 condition = char(all_con(pick_block));
 

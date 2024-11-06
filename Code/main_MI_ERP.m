@@ -37,6 +37,9 @@ for i = 1: length(participants)
         % Import data and check for same amount of trials & channels
         % [dvt, std] = impiEEG(i, basefold, datatype, all_con(con), srate, low_cutoff, high_cutoff, filt_order,re_epoch, dev_epochs, std_epochs, epoch_length);
         overVar_file = strcat(basefold, datatype, '/', participants(i), '_', all_con(con), '.mat')
+        if exist(overVar_file) == 0
+            continue
+        end
         [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number,...
             corrected, srate);
         % if (dvt.nbchan < std.nbchan)
