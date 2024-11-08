@@ -43,8 +43,9 @@ subject   = 1 ;
 
 
 %DROSOPHILA
-participants = {'R230720_1','R040820_1','R040820_2', 'R050820_1', 'R050820_2'...
+participants = {'R040820_1','R040820_2', 'R050820_2'...
     , 'R060820_1', 'R060820_2'};
+%participants = {'R050820_1'}
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'};
@@ -58,6 +59,7 @@ pick_block = 1;
 
 %Drosophila
 all_con = {'B2WAKE','B3WAKE'};
+%all_con = {'B3WAKE'};
 
 condition = char(all_con(pick_block));
 

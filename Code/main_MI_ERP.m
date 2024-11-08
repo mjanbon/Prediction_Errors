@@ -5,7 +5,7 @@
 
 
 function main_MI_ERP(task_id)
-USING_HPC = 2;
+USING_HPC = 2; % 0 for local, 1 for Cambridge HPC, 2 for QMUL HPC
 %Get the parameters for the participant and datatype you want
 % [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
 if USING_HPC == 1
@@ -131,7 +131,7 @@ for i = 1: length(participants)
 
             %List electrodes of interest
             if EoI_list == true
-                chan = (MI_stat.(participants{i}).(all_con{con}).electrode(i));
+                chan = (MI_stat.(participants{i}).(all_con{con}).electrode); %Not electrode(i) anymore
                 chan = replace(chan,'-','_');
                 Electorodes.(chan_name) = chan_name;
             end
@@ -191,6 +191,7 @@ for i = 1: length(participants)
         cd ../
         clear Electorodes
         clear MI_stat
+        close all
 
     end
 end
