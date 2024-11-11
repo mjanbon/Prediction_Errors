@@ -4,17 +4,17 @@
 
 
 function [MI_stat]  = max_Get_COI(electrodes,basefold, datatype,...
-    participant, all_con, condition, participants,deviant_group_number, ...
+    subject, condition,deviant_group_number, ...
     standard_group_number,corrected, srate, baseline, kperm)
 %addpath('/home/jma201/coi-ieeg')
 %addpath('/home/jma201/iEEG')
-overVar_file = strcat(basefold, datatype, '/', participants(participant), '_', condition, '.mat');
+overVar_file = strcat(basefold, datatype, '/', subject, '_', condition, '.mat');
 [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number,...
     corrected, srate);
 
 % [std, dvt] = impiEEG(participant, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order, re_epoch, dev_epochs, std_epochs, epoch_length);
 
-patname = char(participants(participant));
+patname = char(subject);
 
 %% CHECK FOR EQUAL CHANNELS & TRIALS
 
