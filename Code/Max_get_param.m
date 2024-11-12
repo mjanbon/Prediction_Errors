@@ -45,10 +45,10 @@ subject   = 1 ;
 %DROSOPHILA
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
-participants = {'R230720'}
+participants = {'R230720_1'};
 
 %MARMOSETS
-% participants = {'Ji' 'Nr'};
+% participants = {'Ji' 'Nr'}
 
 
 
@@ -59,12 +59,12 @@ pick_block = 1;
 
 %Drosophila
 %all_con = {'B2','B2WAKE', 'B3WAKE', 'BSLEEP'};
-all_con = {'B2EDV1'};
+all_con = {'B2WAKE'};
 
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'only_wake_edited_v1';
+activity_tag = 'only_wake_dataset';
 if strcmp(activity_tag, 'mid_sleep') == 1
     deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
@@ -79,6 +79,10 @@ elseif strcmp(activity_tag, 'only_wake_dataset') == 1
     srate = 1000;
 elseif strcmp(activity_tag, 'only_wake_edited_v1') == 1
     deviant_group_number = [5, 6]; %Deviant group in groupHyper for only wake dataset (wake)
+    standard_group_number = [1, 2]; %Carrier group in groupHyper for only wake dataset (wake)
+    srate = 1000;
+elseif strcmp(activity_tag, 'only_wake_oddball_11_point_5') == 1
+    deviant_group_number = [3, 4]; %Deviant group in groupHyper for only wake dataset (wake)
     standard_group_number = [1, 2]; %Carrier group in groupHyper for only wake dataset (wake)
     srate = 1000;
 elseif strcmp(activity_tag, 'wake') == 1
