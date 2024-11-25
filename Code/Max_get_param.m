@@ -59,12 +59,12 @@ pick_block = 1;
 
 %Drosophila
 %all_con = {'B2','B2WAKE', 'B3WAKE', 'BSLEEP'};
-all_con = {'B2WAKE'};
+all_con = {'B2EDV1'};
 
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'only_wake_dataset';
+activity_tag = 'only_wake_edited_v1';
 if strcmp(activity_tag, 'mid_sleep') == 1
     deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
