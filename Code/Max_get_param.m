@@ -32,7 +32,8 @@ elseif USING_HPC == 2
     basefold = '/data/SBBS-PIDProject/Maxime/Drosophila_Data/';
 elseif USING_HPC == 0
     current_folder = pwd;
-    basefold = strcat(current_folder, '\Data\');
+    %basefold = strcat(current_folder, '\Data\');
+    basefold = 'C:\Users\maxim\OneDrive\Desktop\PhD\Juho Code\Co-I Pipeline\CoI-pipeline\Data\'
 end
 data_index = 2;
 datatypes = {'Marmo_EcoG', 'Drosophila_LFP'}; %change according to your datatypes
@@ -45,7 +46,7 @@ subject   = 1 ;
 %DROSOPHILA
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
-participants = {'R230720'};
+participants = {'R060721','R070721','R080721','R150721','R210721','R220721', 'R280721', 'R290721'};
 
 %MARMOSETS
 % participants = {'Ji' 'Nr'}
@@ -59,12 +60,16 @@ pick_block = 1;
 
 %Drosophila
 %all_con = {'B2','B2WAKE', 'B3WAKE', 'BSLEEP'};
-all_con = {'B2EDV1'};
+all_con = {'BSLEEP'};
 
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'only_wake_edited_v1';
+activity_tag = 'sleep';
+if strcmp(activity_tag, 'sleep') == 1
+    deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
+    standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
+    srate = 1000;
 if strcmp(activity_tag, 'mid_sleep') == 1
     deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
@@ -72,6 +77,10 @@ if strcmp(activity_tag, 'mid_sleep') == 1
 elseif strcmp(activity_tag, 'beginning_sleep') == 1
     deviant_group_number = [27, 28]; %Deviant group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
     standard_group_number = [21, 22]; %Carrier group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
+    srate = 1000;
+elseif strcmp(activity_tag, 'wake_in_sleep_dataset') == 1
+    deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake (wake)
+    standard_group_number = [11, 12]; %Carrier group in groupHyper for decomposed sleep/wake (wake)
     srate = 1000;
 elseif strcmp(activity_tag, 'only_wake_dataset') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for only wake dataset (wake)

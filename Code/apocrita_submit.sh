@@ -2,10 +2,11 @@
 #$ -cwd
 #$ -pe smp 1
 #$ -j y
-#$ -l h_vmem=4G
-#$ -o ~
-#$ -l h_rt=1:0:0
-#$ -t 1-225
+#$ -l h_vmem=8G
+#$ -o /data/SBBS-PIDProject/Maxime/Logs/CoI/
+#$ -e /data/SBBS-PIDProject/Maxime/Logs/CoI/
+#$ -l h_rt=239:00:00
+#$ -t 1-1800
 
 
 # Load MATLAB ready for processing.

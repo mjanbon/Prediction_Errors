@@ -4,8 +4,7 @@
 % into a mat-file.
 
 clear all
-
-USING_HPC = 1;
+USING_HPC = 0;
 %Get the parameters for the participant and datatype you want
 % [basefold, datatype, subject, all_con, condition, participants, ~ , re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(0);
 
@@ -174,7 +173,7 @@ for i = 1: length(participants)
 
         cd ../
         clear Electorodes
-        clear MI_stat
+        %clear MI_stat
 
     end
 end
