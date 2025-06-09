@@ -70,7 +70,7 @@ if strcmp(activity_tag, 'sleep') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
     srate = 1000;
-if strcmp(activity_tag, 'mid_sleep') == 1
+elseif strcmp(activity_tag, 'mid_sleep') == 1
     deviant_group_number = [43, 44]; %Deviant group in groupHyper for decomposed sleep/wake (mid mins sleep)
     standard_group_number = [41, 42]; %Carrier group in groupHyper for decomposed sleep/wake (mid mins sleep)
     srate = 1000;
