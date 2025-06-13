@@ -6,7 +6,7 @@
 #$ -o /data/SBBS-PIDProject/Maxime/Logs/Correlation/
 #$ -e /data/SBBS-PIDProject/Maxime/Logs/Correlation/
 #$ -l h_rt=1:00:00
-#$ -t 1-2
+#$ -t 3-840
 
 # Load MATLAB ready for processing.
 module load matlab
