@@ -47,7 +47,7 @@ subject   = 1 ;
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
 participants = {'R060721','R070721','R080721','R150721','R210721','R220721', 'R280721', 'R290721'};
-
+% participants = {'R060721'};
 %MARMOSETS
 % participants = {'Ji' 'Nr'}
 
@@ -65,7 +65,7 @@ all_con = {'BSLEEP'};
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'sleep';
+activity_tag = 'wake';
 if strcmp(activity_tag, 'sleep') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
