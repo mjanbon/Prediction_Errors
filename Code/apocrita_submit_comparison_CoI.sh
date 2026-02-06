@@ -3,8 +3,8 @@
 #$ -pe smp 1
 #$ -j y
 #$ -l h_vmem=8G
-#$ -o /data/SBBS-PIDProject/Maxime/Logs/CoI/
-#$ -e /data/SBBS-PIDProject/Maxime/Logs/CoI/
+#$ -o /data/SBBS-PIDProject/Maxime/Logs/CoI_Comparison/
+#$ -e /data/SBBS-PIDProject/Maxime/Logs/CoI_Comparison/
 #$ -l h_rt=239:00:00
 #$ -t 1-1800
 
