@@ -6,7 +6,7 @@
 #$ -o /data/SBBS-PIDProject/Maxime/Logs/CoI_Comparison/
 #$ -e /data/SBBS-PIDProject/Maxime/Logs/CoI_Comparison/
 #$ -l h_rt=239:00:00
-#$ -t 1-1800
+#$ -t 1-2
 
 
 # Load MATLAB ready for processing.
