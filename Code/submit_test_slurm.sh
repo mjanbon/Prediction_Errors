@@ -4,6 +4,7 @@
 #SBATCH --mem-per-cpu=2G    # Request 2G per cpu
 #SBATCH -t 00:05:00         # Request 5 mins runtime
 #SBATCH -n 1                # Request 1 core
+#SBATCH --partition=compute # Request the compute partition
 
 # Load MATLAB module
 module load matlab
