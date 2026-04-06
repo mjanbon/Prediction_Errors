@@ -11,4 +11,4 @@
 module load matlab
 
 
-matlab -nodisplay -nosplash -r "max_main_comparison(${SGE_TASK_ID}); quit"
+matlab -nodisplay -nosplash -r "max_main_comparison(${SLURM_ARRAY_TASK_ID}); quit"
