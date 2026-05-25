@@ -3,7 +3,7 @@
 #SBATCH --mem-per-cpu=16G    # Request 16G per cpu
 #SBATCH -t 239:00:00         # Request 239 hours runtime
 #SBATCH -n 1                # Request 1 core
-#SBATCH -a 1-225             # Array Job-ID 1-1800 Trying first 225 first
+#SBATCH -a 226-1800            # Array Job-ID 1-1800 Doing all other flies
 #SBATCH --partition=compute # Request the compute partition
 
 
