@@ -25,7 +25,7 @@ end
 
 [S, C] = ndgrid(participants, all_con);
 param_table = table(S(:), C(:), 'VariableNames', {'Subject', 'Condition'}); % Get a table of all subject condition combinations
-params_subjcon = table2struct(param_table(floor(task_id/max_number_permutations)+1, :));
+params_subjcon = table2struct(param_table(floor((task_id-1)/max_number_permutations)+1, :));
 if exist(strcat(basefold, datatype, '/', char(params_subjcon.Subject), '_', char(params_subjcon.Condition), '.mat'), "file") == 0
     return
 end
@@ -55,7 +55,7 @@ param_table = table(D(:), 'VariableNames', {'electrode_x_electrode'});
 
 
 %% Step 2: Fetch task_id from command-line
-modded_task_id = mod(task_id,max_number_permutations);% Find modded task_id, giving correct line in permutation table
+modded_task_id = mod(task_id-1, max_number_permutations) + 1;% Find modded task_id, giving correct line in permutation table (1-indexed)
 if modded_task_id > height(param_table) % Check the row of the param table exists
     return
 end

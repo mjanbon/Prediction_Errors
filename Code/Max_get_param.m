@@ -1,30 +1,46 @@
-%% PARAMETERS FOR COI-PIPELINE
-% IMPORTS SPECIFIED PARAMETERS FOR THE PIPELINE
-
-%This is the only file that needs to be edited to run the pipeline for
-%different condition and participants
-
-%Data has to be organised in the same way as in the example folders
-% and named according to the format:
-%Ji_XX_dev.set
-
-%Ji = participant name
-%XX = condition
-%dev = deviant/standard
-
-%The folder structure for data is:
-%C:/.../basefold/datatype/participant/condition/participant_data.set
-%E.g.
-%D:/.../All_data/Marmo_EcoG/Ji/XX/Ji_XX_dev.set
-
-%get_elec = 1, Get electrodes of interest
-%get_elec = 0, do not get electrodes of interest
-%% 
-
-%function [basefold, datatype, subject, all_con, condition, participants, EoI, re_epoch, dev_epochs, std_epochs, epoch_length, srate, low_cutoff, high_cutoff, filt_order, baseline, start_cut_off, end_cut_off, kperm] = Get_param(get_elec)
-function [basefold, datatype,all_con, condition,subject,participants, EoI,...
-    srate, activity_tag, deviant_group_number, standard_group_number, corrected, stim_onset, baseline,...
+function [basefold, datatype, all_con, condition, subject, participants, EoI, ...
+    srate, activity_tag, deviant_group_number, standard_group_number, corrected, stim_onset, baseline, ...
     start_cut_off, end_cut_off, kperm] = Max_get_param(USING_HPC, get_elec)
+% MAX_GET_PARAM   Retrieve parameters for CoI pipeline analysis
+%
+% SYNTAX:
+%   [basefold, datatype, all_con, condition, subject, participants, EoI, ...
+%    srate, activity_tag, deviant_group_number, standard_group_number, ...
+%    corrected, stim_onset, baseline, start_cut_off, end_cut_off, kperm] = ...
+%    Max_get_param(USING_HPC, get_elec)
+%
+% INPUT PARAMETERS:
+%   USING_HPC: Whether Queen Mary or Cambridge HPC is used or the analysis is
+%              to be run locally           
+%   get_elec: - get_elec = 1: Get electrodes of interest
+%             - get_elec = 0: Do not get electrodes of interest              
+%
+% OUTPUT PARAMETERS:
+%   basefold: The base folder where the LFP data is found               
+%   datatype: What animal the LFP data to be analysed corresponds to                 
+%   all_con: A list of conditions the data could have been recorded under                 
+%   condition: The condition to be analysed             
+%   subject: Used for selecting a particular participant                 
+%   participants: List of participants (different flies)           
+%   EoI: List of electrode numbers with significant mutual information                      
+%   srate: The sampling rate of the LFPs in Hz                   
+%   activity_tag: String to show the fly activity at time of recording (eg sleep, wake etc)             
+%   deviant_group_number: Rows in GroupHyper (data from Drosophila preprocessing)
+%                         that correspond to deviant stimuli with the correct fly activity.     
+%   standard_group_number: Rows in GroupHyper (data from Drosophila preprocessing)
+%                          that correspond to standard stimuli with the correct fly activity.     
+%   corrected: Whether any normalisation has been done on the ERPs in the preprocessing.                 
+%   stim_onset:                 
+%   baseline:                   
+%   start_cut_off:              
+%   end_cut_off:                
+%   kperm: Number of permutations in the permutation analysis                     
+%
+% DESCRIPTION:
+%   This is the only file that needs to be edited to run the pipeline for
+%   different conditions and participants (with no condition comparisons).
+  
+
 %% TYPE OF DATA
 if USING_HPC == 1
     basefold = '/home/mj649/rds/hpc-work/Drosophila_Data/';
@@ -47,7 +63,7 @@ subject   = 1 ;
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
 participants = {'R060721','R070721','R080721','R150721','R210721','R220721', 'R280721', 'R290721'};
-%participants = {'R070721'};
+% participants = {'R070721','R070721'};
 %MARMOSETS
 % participants = {'Ji' 'Nr'}
 
@@ -65,7 +81,7 @@ all_con = {'BSLEEP'};
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'sleep';
+activity_tag = 'wake';
 if strcmp(activity_tag, 'sleep') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
