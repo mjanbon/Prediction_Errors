@@ -3,7 +3,7 @@
 % trim trials first, then baseline-normalise, then estimate MI.
 
 function main_MI_ERP_comparison_pretrim(task_id)
-USING_HPC = 0; % 0 for local, 1 for Cambridge HPC, 2 for QMUL HPC
+USING_HPC = 2; % 0 for local, 1 for Cambridge HPC, 2 for QMUL HPC
 if USING_HPC == 1
     addpath(genpath('/home/mj649/rds/hpc-work/CNM'));
     addpath(genpath('/home/mj649/rds/hpc-work/GCMI_master'));
