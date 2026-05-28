@@ -8,4 +8,4 @@
 # Load MATLAB ready for processing.
 module load matlab
 
-matlab -nodisplay -nosplash -r "main_MI_ERP_comparison(1); quit"
+matlab -nodisplay -nosplash -r "main_MI_ERP_comparison_pretrim(1); quit"
