@@ -3,7 +3,7 @@
 % trim trials first, then baseline-normalise, then estimate MI.
 
 function main_MI_ERP_comparison_pretrim(task_id)
-USING_HPC = 2; % 0 for local, 1 for Cambridge HPC, 2 for QMUL HPC
+USING_HPC = 0; % 0 for local, 1 for Cambridge HPC, 2 for QMUL HPC
 if USING_HPC == 1
     addpath(genpath('/home/mj649/rds/hpc-work/CNM'));
     addpath(genpath('/home/mj649/rds/hpc-work/GCMI_master'));
@@ -33,7 +33,10 @@ for i = 1:length(participants)
         [dvt_1, std_1] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number_1, standard_group_number_1, corrected, srate);
         [dvt_2, std_2] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number_2, standard_group_number_2, corrected, srate);
 
-        [bb_dev_1, bb_std_1, bb_dev_2, bb_std_2, timing, trialnum] = prepare_trimmed_baselined_inputs(dvt_1, std_1, dvt_2, std_2, baseline);
+        [bb_dev_1, bb_std_1, bb_dev_2, bb_std_2, timing, trialnum] = prepare_trimmed_baselined_inputs( ...
+            dvt_1, std_1, dvt_2, std_2, baseline, ...
+            length(deviant_group_number_1), length(standard_group_number_1), ...
+            length(deviant_group_number_2), length(standard_group_number_2));
 
         fprintf('Participant %s condition %s: using %d matched trials\n', char(participants(i)), char(all_con(con)), trialnum);
 
@@ -87,26 +90,33 @@ for i = 1:length(participants)
 end
 end
 
-function [bb_dev_1, bb_std_1, bb_dev_2, bb_std_2, timing, trialnum] = prepare_trimmed_baselined_inputs(dvt_1, std_1, dvt_2, std_2, baseline)
+function [bb_dev_1, bb_std_1, bb_dev_2, bb_std_2, timing, trialnum] = prepare_trimmed_baselined_inputs( ...
+    dvt_1, std_1, dvt_2, std_2, baseline, n_dev_1, n_std_1, n_dev_2, n_std_2)
 % Match trials first using a single random subsample, then baseline-normalise.
 % This avoids bias from always taking the first N trials.
 
-if (std_1.trials < std_2.trials)
+% Preferred path: keep subtype balance (e.g., green/blue deviants) while
+% still matching wake/sleep by random subsampling.
+if n_dev_1 == 2 && n_dev_2 == 2 && n_std_1 == 2 && n_std_2 == 2
+    per_group_target = floor(min([size(dvt_1.data,3)/n_dev_1, size(std_1.data,3)/n_std_1, ...
+        size(dvt_2.data,3)/n_dev_2, size(std_2.data,3)/n_std_2]));
+
+    if per_group_target < 1
+        error('Not enough trials to perform subtype-balanced matching.');
+    end
+
+    dvt_1.data = sample_equal_from_concatenated_groups(dvt_1.data, n_dev_1, per_group_target);
+    std_1.data = sample_equal_from_concatenated_groups(std_1.data, n_std_1, per_group_target);
+    dvt_2.data = sample_equal_from_concatenated_groups(dvt_2.data, n_dev_2, per_group_target);
+    std_2.data = sample_equal_from_concatenated_groups(std_2.data, n_std_2, per_group_target);
+
+    dvt_1.trials = size(dvt_1.data,3);
+    std_1.trials = size(std_1.data,3);
+    dvt_2.trials = size(dvt_2.data,3);
+    std_2.trials = size(std_2.data,3);
     trialnum = std_1.trials;
-    idx_std_2 = randperm(std_2.trials, trialnum);
-    idx_dvt_2 = randperm(dvt_2.trials, trialnum);
-    std_2.data = std_2.data(:,:,idx_std_2);
-    std_2.trials = trialnum;
-    dvt_2.data = dvt_2.data(:,:,idx_dvt_2);
-    dvt_2.trials = trialnum;
 else
-    trialnum = std_2.trials;
-    idx_std_1 = randperm(std_1.trials, trialnum);
-    idx_dvt_1 = randperm(dvt_1.trials, trialnum);
-    std_1.data = std_1.data(:,:,idx_std_1);
-    std_1.trials = trialnum;
-    dvt_1.data = dvt_1.data(:,:,idx_dvt_1);
-    dvt_1.trials = trialnum;
+    [dvt_1, std_1, dvt_2, std_2, trialnum] = random_match_trials_total(dvt_1, std_1, dvt_2, std_2);
 end
 
 data_dvt_1 = permute(dvt_1.data,[1 3 2]);
@@ -136,4 +146,45 @@ bb_dev_2 = permute(bb1_dev_bl_2,[3 1 2]);
 bb_std_2 = permute(bb1_std_bl_2,[3 1 2]);
 
 timing = dvt_1.times;
+end
+
+function data_out = sample_equal_from_concatenated_groups(data_in, n_groups, per_group_target)
+% Assumes trials are concatenated by group in contiguous blocks.
+total_trials = size(data_in,3);
+if mod(total_trials, n_groups) ~= 0
+    error('Trial count (%d) is not divisible by n_groups (%d).', total_trials, n_groups);
+end
+
+trials_per_group = total_trials / n_groups;
+all_idx = [];
+for g = 1:n_groups
+    first_idx = (g - 1) * trials_per_group + 1;
+    last_idx = g * trials_per_group;
+    group_idx = first_idx:last_idx;
+    pick_local = randperm(trials_per_group, per_group_target);
+    all_idx = [all_idx, group_idx(pick_local)]; %#ok<AGROW>
+end
+
+all_idx = all_idx(randperm(length(all_idx)));
+data_out = data_in(:,:,all_idx);
+end
+
+function [dvt_1, std_1, dvt_2, std_2, trialnum] = random_match_trials_total(dvt_1, std_1, dvt_2, std_2)
+% Fallback: random total-trial matching without subtype balancing.
+trialnum = min([std_1.trials, std_2.trials, dvt_1.trials, dvt_2.trials]);
+
+idx_std_1 = randperm(std_1.trials, trialnum);
+idx_dvt_1 = randperm(dvt_1.trials, trialnum);
+idx_std_2 = randperm(std_2.trials, trialnum);
+idx_dvt_2 = randperm(dvt_2.trials, trialnum);
+
+std_1.data = std_1.data(:,:,idx_std_1);
+dvt_1.data = dvt_1.data(:,:,idx_dvt_1);
+std_2.data = std_2.data(:,:,idx_std_2);
+dvt_2.data = dvt_2.data(:,:,idx_dvt_2);
+
+std_1.trials = trialnum;
+dvt_1.trials = trialnum;
+std_2.trials = trialnum;
+dvt_2.trials = trialnum;
 end

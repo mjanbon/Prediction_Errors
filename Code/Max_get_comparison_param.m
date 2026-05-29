@@ -36,7 +36,7 @@ subject   = 1 ;
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
 participants = {'R060721','R070721','R080721','R150721','R210721','R220721', 'R280721', 'R290721'};
-% participants = {'R060721'};
+%participants = {'R060721'};
 %MARMOSETS
 % participants = {'Ji' 'Nr'}
 
