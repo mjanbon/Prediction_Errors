@@ -1,0 +1,85 @@
+function max_main_comparison_pretrim(task_id)
+%%MAIN Entry point of Matlab SLURM job for the pretrim CoI comparison
+tic
+
+USING_HPC = 2;
+max_number_permutations = 225;
+THRESHOLD = 0.05;
+
+if USING_HPC == 1
+    addpath(genpath('/home/mj649/rds/hpc-work/CNM'));
+    addpath(genpath('/home/mj649/rds/hpc-work/GCMI_master'));
+    addpath(genpath('/home/mj649/rds/hpc-work/Prediction_Errors'));
+end
+
+if USING_HPC == 2
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/CNM'));
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/GCMI_master'));
+    addpath(genpath('/data/SBBS-PIDProject/Maxime/Prediction_Errors'));
+end
+
+[basefold, datatype, all_con, ~, ~, participants, ~,...
+    srate, activity_tag_1, deviant_group_number_1, standard_group_number_1,...
+    activity_tag_2, deviant_group_number_2, standard_group_number_2, corrected,...
+    ~, baseline, ~, ~, kperm] = Max_get_comparison_param(USING_HPC, 0);
+
+[S, C] = ndgrid(participants, all_con);
+param_table = table(S(:), C(:), 'VariableNames', {'Subject', 'Condition'});
+params_subjcon = table2struct(param_table(floor((task_id-1)/max_number_permutations)+1, :));
+
+subject_file = strcat(basefold, datatype, '/', char(params_subjcon.Subject), '_', char(params_subjcon.Condition), '.mat');
+if exist(subject_file, 'file') == 0
+    return
+end
+
+EOI_filename = strcat(basefold, 'DataEoI/', 'EoI_data', '_', datatype, '.mat');
+load(EOI_filename, 'EoI');
+EoI = EoI.(char(params_subjcon.Subject)).(strcat(char(activity_tag_1), '_', char(activity_tag_2))).(char(params_subjcon.Condition));
+
+elecs = {};
+permutations = {};
+for electrodi = 1:length(EoI)
+    elec = EoI(electrodi);
+    for perm_elec = 1:length(EoI)
+        comb_perms = strcat(elec, '_permuted_', EoI(perm_elec));
+        elecs(perm_elec, 1) = comb_perms;
+    end
+    permutations = vertcat(permutations, elecs);
+end
+
+[D] = ndgrid(permutations);
+param_table = table(D(:), 'VariableNames', {'electrode_x_electrode'});
+
+modded_task_id = mod(task_id-1, max_number_permutations) + 1;
+if modded_task_id > height(param_table)
+    return
+end
+params = table2struct(param_table(modded_task_id, :));
+
+[data] = max_Get_COI_comparison_pretrim(params.electrode_x_electrode, basefold, datatype,...
+    char(params_subjcon.Subject), char(params_subjcon.Condition), deviant_group_number_1,...
+    standard_group_number_1, deviant_group_number_2, standard_group_number_2,...
+    corrected, srate, baseline, kperm, THRESHOLD);
+
+participantname = char(params_subjcon.Subject);
+patname = char(strcat(participantname, '_', params.electrode_x_electrode));
+
+if USING_HPC == 1
+    results_dir = strcat('/home/mj649/rds/hpc-work/Drosophila_Results/Drosophila_CoI/Comparisons_pretrim/',...
+        participantname, '_', activity_tag_1, '_', activity_tag_2, '_', char(params_subjcon.Condition));
+elseif USING_HPC == 2
+    results_dir = strcat('/data/SBBS-PIDProject/Maxime/Drosophila_Results/Drosophila_CoI/Comparisons_pretrim/',...
+        participantname, '_', activity_tag_1, '_', activity_tag_2, '_', char(params_subjcon.Condition));
+elseif USING_HPC == 0
+    results_dir = strcat(basefold, '/Drosophila_CoI/', '/Comparisons_pretrim/', participantname, ...
+        '_', activity_tag_1, '_', activity_tag_2, '_', char(params_subjcon.Condition));
+end
+
+results_folder = char(results_dir);
+if ~exist(results_folder, 'dir'); mkdir(results_folder); end
+
+CoI_pretrim.(patname) = data;
+cd(results_folder)
+save(patname, 'CoI_pretrim', '-v7.3')
+toc
+end
