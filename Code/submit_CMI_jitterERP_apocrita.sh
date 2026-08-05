@@ -19,6 +19,6 @@ module load matlab
 CODE_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/CoI-pipeline/Code"
 JITTER_ERP_FILE="/data/SBBS-PIDProject/Maxime/Drosophila_Data/Drosophila_LFP/Rdaytime_jitteringExperiment_jitteringExperiment_jitterERP.mat"
 OUTPUT_DIR="/data/SBBS-PIDProject/Maxime/Drosophila_Data/Drosophila_LFP/CMI_Data"
-N_PERM=2
+N_PERM=500
 
 matlab -nodisplay -nosplash -r "addpath('${CODE_DIR}'); main_CMI_jitterERP('${JITTER_ERP_FILE}','${OUTPUT_DIR}',${SLURM_ARRAY_TASK_ID},${N_PERM}); quit"
