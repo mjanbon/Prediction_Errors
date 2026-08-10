@@ -82,7 +82,7 @@ elseif strcmp(activity_tag_1, 'wake') == 1
     srate = 1000;
 end
 
-activity_tag_2 = 'beginning_sleep'; %Second activity tag
+activity_tag_2 = 'mid_sleep'; %Second activity tag
 if strcmp(activity_tag_2, 'sleep') == 1
     deviant_group_number_2 = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number_2 = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
