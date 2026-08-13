@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -o /data/SBBS-PIDProject/Maxime/Logs/Drosophila_MI/MI_mid_sleep_%j.log
+#SBATCH -o /data/SBBS-PIDProject/Maxime/Logs/Drosophila_MI/MI_beginning_sleep_%j.log
 #SBATCH --mem-per-cpu=64G    # Request 64G per cpu
 #SBATCH -t 239:00:00         # Request 239 hours runtime
 #SBATCH -n 1                # Request 1 core
