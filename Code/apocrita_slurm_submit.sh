@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH -o /data/SBBS-PIDProject/Maxime/Logs/CoI/CoI_wake_%j.log
+#SBATCH -o /data/SBBS-PIDProject/Maxime/Logs/CoI/CoI_mid_sleep_%A_%a.log
 #SBATCH --mem-per-cpu=16G    # Request 16G per cpu
 #SBATCH -t 239:00:00         # Request 239 hours runtime
 #SBATCH -n 1                # Request 1 core
-#SBATCH -a 226-1800            # Array Job-ID 1-1800 Doing all other flies
+#SBATCH -a 1-225           # Array Job-ID 1-1800 Doing all other flies
 #SBATCH --partition=compute # Request the compute partition
 
 
