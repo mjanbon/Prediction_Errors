@@ -55,7 +55,7 @@ condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
 % Set activity tags and deviant and standard groups in groupHyper for two conditions.
-activity_tag_1 = 'wake' %First activity tag
+activity_tag_1 = 'beginning_sleep' %First activity tag
 if strcmp(activity_tag_1, 'sleep') == 1
     deviant_group_number_1 = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number_1 = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
