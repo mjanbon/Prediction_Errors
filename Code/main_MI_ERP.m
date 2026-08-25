@@ -40,8 +40,13 @@ for i = 1: length(participants)
         if exist(char(overVar_file)) == 0
             continue
         end
-        [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number,...
-            corrected, srate);
+        if strcmp(activity_tag, 'active_sleep')
+            [dvt, std] = load_trials_from_group_hyper_pooled(char(overVar_file), deviant_group_number, standard_group_number, ...
+                corrected, srate);
+        else
+            [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number, ...
+                corrected, srate);
+        end
         % if (dvt.nbchan < std.nbchan)
         %     channum = dvt.nbchan;
         %     std = pop_select(std, 'channel', 1:channum);

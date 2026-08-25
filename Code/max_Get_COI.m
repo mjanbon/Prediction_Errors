@@ -5,12 +5,21 @@
 
 function [MI_stat]  = max_Get_COI(electrodes,basefold, datatype,...
     subject, condition,deviant_group_number, ...
-    standard_group_number,corrected, srate, baseline, kperm)
+    standard_group_number,corrected, srate, baseline, kperm, activity_tag)
 %addpath('/home/jma201/coi-ieeg')
 %addpath('/home/jma201/iEEG')
+if nargin < 12
+    activity_tag = '';
+end
+
 overVar_file = strcat(basefold, datatype, '/', subject, '_', condition, '.mat');
-[dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number,...
-    corrected, srate);
+if strcmp(activity_tag, 'active_sleep')
+    [dvt, std] = load_trials_from_group_hyper_pooled(char(overVar_file), deviant_group_number, standard_group_number, ...
+        corrected, srate);
+else
+    [dvt, std] = load_trials_from_group_hyper(char(overVar_file), deviant_group_number, standard_group_number, ...
+        corrected, srate);
+end
 
 % [std, dvt] = impiEEG(participant, basefold, datatype, condition, srate, low_cutoff, high_cutoff, filt_order, re_epoch, dev_epochs, std_epochs, epoch_length);
 

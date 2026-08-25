@@ -63,6 +63,7 @@ subject   = 1 ;
 % participants = {'R230720','R040820_1','R040820_2', 'R050820_1'...
 %     , 'R060820_1', 'R060820_2', 'R060721'};
 participants = {'R060721','R070721','R080721','R150721','R210721','R220721', 'R280721', 'R290721'};
+% participants = {'R060721','R070721','R080721','R150721','R210721', 'R280721', 'R290721'}; %Without R220721
 % participants = {'R070721','R070721'};
 %MARMOSETS
 % participants = {'Ji' 'Nr'}
@@ -81,7 +82,7 @@ all_con = {'BSLEEP'};
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'beginning_sleep';
+activity_tag = 'active_sleep';
 if strcmp(activity_tag, 'sleep') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
@@ -93,6 +94,10 @@ elseif strcmp(activity_tag, 'mid_sleep') == 1
 elseif strcmp(activity_tag, 'beginning_sleep') == 1
     deviant_group_number = [27, 28]; %Deviant group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
     standard_group_number = [21, 22]; %Carrier group in groupHyper for decomposed sleep/wake (first 2 mins sleep)
+    srate = 1000;
+elseif strcmp(activity_tag, 'active_sleep') == 1
+    deviant_group_number = [27, 28, 31, 32]; %First + last 2 mins sleep deviants (<8h)
+    standard_group_number = [21, 22, 25, 26]; %First + last 2 mins sleep standards (<8h)
     srate = 1000;
 elseif strcmp(activity_tag, 'wake_in_sleep_dataset') == 1
     deviant_group_number = [7, 8]; %Deviant group in groupHyper for decomposed sleep/wake (wake)
