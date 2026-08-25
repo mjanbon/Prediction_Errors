@@ -66,7 +66,7 @@ params = table2struct(param_table(modded_task_id, :));
 
 [data] = max_Get_COI(params.electrode_x_electrode,basefold, datatype,...
     char(params_subjcon.Subject), char(params_subjcon.Condition),deviant_group_number,...
-    standard_group_number,corrected, srate, baseline, kperm);
+    standard_group_number,corrected, srate, baseline, kperm, activity_tag);
 
 %participantname = participants(params.Subject);
 participantname = char(params_subjcon.Subject);
