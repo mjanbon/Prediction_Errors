@@ -32,7 +32,7 @@ addpath(plot_dir);
     corrected, stim_onset, baseline, ~, ~, ~] = Max_get_param(USING_HPC, 0);
 
 condition = char(all_con{1});
-out_dir = fullfile(basefold, 'MI_figures', 'paper_summary');
+out_dir = fullfile(basefold, 'MI_Figures', 'paper_summary');
 if ~exist(out_dir, 'dir')
     mkdir(out_dir);
 end
