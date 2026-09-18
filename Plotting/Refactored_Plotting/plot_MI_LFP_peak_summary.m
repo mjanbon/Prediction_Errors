@@ -38,7 +38,7 @@ if ~exist(out_dir, 'dir')
 end
 
 %% Collect LFP traces and MI traces
-[lfp_time, std_lfp, dvt_lfp] = collect_lfp_traces(participants, basefold, datatype, ...
+[lfp_time, std_lfp_by_electrode, dvt_lfp_by_electrode] = collect_lfp_traces(participants, basefold, datatype, ...
     condition, activity_tag, standard_group_number, deviant_group_number, ...
     corrected, srate, baseline, stim_onset, selected_electrodes, expected_timepoints);
 
@@ -50,24 +50,31 @@ if isempty(participants_used)
 end
 
 %% Build figure
-fig = figure('Color', 'w', 'Position', [100 100 1600 420]);
-tiledlayout(1, numel(selected_electrodes) + 2, 'TileSpacing', 'compact', 'Padding', 'compact');
+fig = figure('Color', 'w', 'Position', [100 100 1200 900]);
+t = tiledlayout(3, numel(selected_electrodes), 'TileSpacing', 'compact', 'Padding', 'compact');
 
-% Panel 1: average LFP traces
-nexttile;
-plot_mean_sem(lfp_time, std_lfp, [0.20 0.20 0.20], line_width);
-hold on;
-plot_mean_sem(lfp_time, dvt_lfp, [0.00 0.45 0.25], line_width);
-xline(stim_onset_plot_ms, '--k', 'LineWidth', 0.3);
-xlabel('Time from stimulus onset (ms)');
-ylabel('LFP amplitude');
-title('Average LFP');
-legend({'Standard', 'Deviant'}, 'Box', 'off', 'Location', 'best');
-format_axes(gca, axis_width);
-
-% Middle panels: selected-electrode MI traces
+% Row 1: selected-electrode LFP traces
 for e = 1:numel(selected_electrodes)
-    nexttile;
+    nexttile(t, e);
+    elec = selected_electrodes{e};
+    if isfield(std_lfp_by_electrode, elec)
+        plot_mean_sem(lfp_time, std_lfp_by_electrode.(elec), [0.20 0.20 0.20], line_width);
+        hold on;
+        plot_mean_sem(lfp_time, dvt_lfp_by_electrode.(elec), [0.00 0.45 0.25], line_width);
+    end
+    xline(stim_onset_plot_ms, '--k', 'LineWidth', 0.3);
+    xlabel('Time from stimulus onset (ms)');
+    ylabel('LFP amplitude');
+    title(sprintf('%s LFP', elec));
+    if e == 1
+        legend({'Standard', 'Deviant'}, 'Box', 'off', 'Location', 'best');
+    end
+    format_axes(gca, axis_width);
+end
+
+% Row 2: corresponding selected-electrode MI traces
+for e = 1:numel(selected_electrodes)
+    nexttile(t, numel(selected_electrodes) + e);
     elec = selected_electrodes{e};
     if isfield(mi_by_electrode, elec)
         plot_mean_sem(mi_time, mi_by_electrode.(elec), [0.10 0.25 0.75], line_width);
@@ -79,8 +86,8 @@ for e = 1:numel(selected_electrodes)
     format_axes(gca, axis_width);
 end
 
-% Final panel: peak MI times across flies/electrodes
-nexttile;
+% Row 3: peak MI progression across electrodes, spanning all columns
+nexttile(t, 2*numel(selected_electrodes) + 1, [1 numel(selected_electrodes)]);
 boxplot(peak_times(:, end:-1:1), 'Labels', elec_names_rev, ...
     'LabelOrientation', 'inline', 'Widths', 0.55, 'MedianStyle', 'line');
 hold on;
@@ -111,8 +118,12 @@ function [time_ms, std_traces, dvt_traces] = collect_lfp_traces(participants, ba
     condition, activity_tag, standard_group_number, deviant_group_number, ...
     corrected, srate, baseline, stim_onset, selected_electrodes, expected_timepoints)
 
-std_traces = [];
-dvt_traces = [];
+std_traces = struct();
+dvt_traces = struct();
+for e = 1:numel(selected_electrodes)
+    std_traces.(selected_electrodes{e}) = [];
+    dvt_traces.(selected_electrodes{e}) = [];
+end
 time_ms = [];
 
 for i = 1:numel(participants)
@@ -151,7 +162,8 @@ for i = 1:numel(participants)
     end
 
     for e = 1:numel(selected_electrodes)
-        ch = electrode_number(selected_electrodes{e});
+        elec = selected_electrodes{e};
+        ch = electrode_number(elec);
         if ch <= size(dvt.data, 1) && ch <= size(std.data, 1)
             dvt_trace = squeeze(mean(dvt.data(ch,:,:), 3)); % mean over trials
             std_trace = squeeze(mean(std.data(ch,:,:), 3));
@@ -160,13 +172,13 @@ for i = 1:numel(participants)
 
             assert(numel(dvt_trace) == expected_timepoints, ...
                 'Deviant LFP trace for %s %s has %d timepoints, expected %d.', ...
-                participant, selected_electrodes{e}, numel(dvt_trace), expected_timepoints);
+                participant, elec, numel(dvt_trace), expected_timepoints);
             assert(numel(std_trace) == expected_timepoints, ...
                 'Standard LFP trace for %s %s has %d timepoints, expected %d.', ...
-                participant, selected_electrodes{e}, numel(std_trace), expected_timepoints);
+                participant, elec, numel(std_trace), expected_timepoints);
 
-            dvt_traces(end+1,:) = dvt_trace; %#ok<AGROW>
-            std_traces(end+1,:) = std_trace; %#ok<AGROW>
+            dvt_traces.(elec)(end+1,:) = dvt_trace; %#ok<AGROW>
+            std_traces.(elec)(end+1,:) = std_trace; %#ok<AGROW>
         end
     end
 end
