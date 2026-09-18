@@ -7,7 +7,7 @@
 
 module load matlab
 
-CODE_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/CoI-pipeline/Code"
-PLOT_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/CoI-pipeline/Plotting/Refactored_Plotting"
+CODE_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/Code"
+PLOT_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/Plotting/Refactored_Plotting"
 
 matlab -nodisplay -nosplash -r "addpath('${CODE_DIR}'); addpath('${PLOT_DIR}'); plot_MI_LFP_peak_summary(2); quit"
