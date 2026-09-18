@@ -82,7 +82,7 @@ all_con = {'BSLEEP'};
 condition = char(all_con(pick_block));
 
 %% FILTERING & DATA
-activity_tag = 'active_sleep';
+activity_tag = 'wake';
 if strcmp(activity_tag, 'sleep') == 1
     deviant_group_number = [3, 4]; %Deviant group in groupHyper for decomposed sleep/wake (all sleep)
     standard_group_number = [9, 10]; %Carrier group in groupHyper for decomposed sleep/wake (all sleep)
