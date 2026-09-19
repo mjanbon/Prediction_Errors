@@ -42,7 +42,7 @@ end
     condition, activity_tag, standard_group_number, deviant_group_number, ...
     corrected, srate, baseline, stim_onset, selected_electrodes, expected_timepoints);
 
-[mi_time, mi_by_electrode, peak_times, elec_names_rev, participants_used] = collect_mi_data( ...
+[mi_time, mi_by_electrode, sig_by_electrode, peak_times, elec_names_rev, participants_used] = collect_mi_data( ...
     participants, basefold, condition, activity_tag, selected_electrodes, stim_onset, expected_timepoints);
 
 if isempty(participants_used)
@@ -58,16 +58,16 @@ for e = 1:numel(selected_electrodes)
     nexttile(t, e);
     elec = selected_electrodes{e};
     if isfield(std_lfp_by_electrode, elec)
-        plot_mean_sem(lfp_time, std_lfp_by_electrode.(elec), [0.20 0.20 0.20], line_width);
+        h_std = plot_mean_sem(lfp_time, std_lfp_by_electrode.(elec), [0.20 0.20 0.20], line_width);
         hold on;
-        plot_mean_sem(lfp_time, dvt_lfp_by_electrode.(elec), [0.00 0.45 0.25], line_width);
+        h_dvt = plot_mean_sem(lfp_time, dvt_lfp_by_electrode.(elec), [0.00 0.45 0.25], line_width);
     end
     xline(stim_onset_plot_ms, '--k', 'LineWidth', 0.3);
     xlabel('Time from stimulus onset (ms)');
-    ylabel('LFP amplitude');
+    ylabel('LFP amplitude (a.u.)');
     title(sprintf('%s LFP', elec));
-    if e == 1
-        legend({'Standard', 'Deviant'}, 'Box', 'off', 'Location', 'best');
+    if e == 1 && exist('h_std', 'var') && exist('h_dvt', 'var')
+        legend([h_std h_dvt], {'Standard', 'Deviant'}, 'Box', 'off', 'Location', 'best');
     end
     format_axes(gca, axis_width);
 end
@@ -78,11 +78,17 @@ for e = 1:numel(selected_electrodes)
     elec = selected_electrodes{e};
     if isfield(mi_by_electrode, elec)
         plot_mean_sem(mi_time, mi_by_electrode.(elec), [0.10 0.25 0.75], line_width);
+        hold on;
+        if isfield(sig_by_electrode, elec)
+            add_all_fly_sig_bar(mi_time, sig_by_electrode.(elec), [0.65 0.00 0.65], line_width);
+        end
     end
     xline(stim_onset_plot_ms, '--k', 'LineWidth', 0.3);
     xlabel('Time from stimulus onset (ms)');
     ylabel('MI (bits)');
     title(elec);
+    ylim_here = ylim;
+    ylim([0 max(ylim_here(2), eps)]);
     format_axes(gca, axis_width);
 end
 
@@ -97,6 +103,7 @@ for r = 1:size(peak_times, 1)
         'filled', 'MarkerFaceAlpha', 0.45);
 end
 yline(0, ':k', 'LineWidth', 0.3);
+add_peak_lme_fit(gca, peak_times, participants_used, line_width);
 xlabel('Electrode number (E_{retina} -> E_{central})');
 ylabel('Peak MI time (ms)');
 title('Peak MI timing');
@@ -206,12 +213,14 @@ data_perm = data_perm - repmat(base_mean, [1 1 size(data_in, 2)]);
 data_out = permute(data_perm, [1 3 2]);
 end
 
-function [time_ms, mi_by_electrode, peak_times, elec_names_rev, participants_used] = collect_mi_data( ...
+function [time_ms, mi_by_electrode, sig_by_electrode, peak_times, elec_names_rev, participants_used] = collect_mi_data( ...
     participants, basefold, condition, activity_tag, selected_electrodes, stim_onset, expected_timepoints)
 
 mi_by_electrode = struct();
+sig_by_electrode = struct();
 for e = 1:numel(selected_electrodes)
     mi_by_electrode.(selected_electrodes{e}) = [];
+    sig_by_electrode.(selected_electrodes{e}) = [];
 end
 
 all_peak_times = [];
@@ -230,6 +239,7 @@ for i = 1:numel(participants)
 
     S = load(mi_file, 'MI_stat');
     MI_struct = S.MI_stat.(participant).(condition).MI;
+    sig_struct = S.MI_stat.(participant).(condition).sigMask;
     elec_names_this = fieldnames(MI_struct);
 
     if isempty(elec_names)
@@ -270,6 +280,17 @@ for i = 1:numel(participants)
                     participant, elec, numel(mi_vec), expected_timepoints);
             end
             mi_by_electrode.(elec)(end+1,:) = mi_vec; %#ok<AGROW>
+
+            if isfield(sig_struct, elec)
+                sig_vec = logical(sig_struct.(elec)(:).');
+                if numel(sig_vec) ~= expected_timepoints
+                    error('sigMask vector for %s %s has %d timepoints, expected %d.', ...
+                        participant, elec, numel(sig_vec), expected_timepoints);
+                end
+                sig_by_electrode.(elec)(end+1,:) = sig_vec; %#ok<AGROW>
+            else
+                sig_by_electrode.(elec)(end+1,:) = false(1, expected_timepoints); %#ok<AGROW>
+            end
         end
     end
 
@@ -283,8 +304,9 @@ participants_used = participants_used(valid_rows);
 elec_names_rev = flipud(elec_names);
 end
 
-function plot_mean_sem(x, traces, color, line_width)
+function h_line = plot_mean_sem(x, traces, color, line_width)
 if isempty(traces)
+    h_line = gobjects(1);
     return;
 end
 m = nanmean_local(traces, 1);
@@ -292,7 +314,67 @@ s = nansem_local(traces, 1);
 fill([x fliplr(x)], [m - s fliplr(m + s)], color, ...
     'FaceAlpha', 0.16, 'EdgeColor', 'none');
 hold on;
-plot(x, m, 'Color', color, 'LineWidth', line_width);
+h_line = plot(x, m, 'Color', color, 'LineWidth', line_width);
+end
+
+function add_all_fly_sig_bar(x, sig_matrix, color, line_width)
+% Draw short horizontal bars at timepoints where all 8 flies are significant.
+if isempty(sig_matrix) || size(sig_matrix, 1) < 8
+    return;
+end
+
+all_sig = all(logical(sig_matrix), 1);
+if ~any(all_sig)
+    return;
+end
+
+y_limits = ylim;
+y_bar = y_limits(2) - 0.07 * range(y_limits);
+if ~isfinite(y_bar)
+    y_bar = 0;
+end
+
+for tIdx = 1:(numel(x) - 1)
+    if all_sig(tIdx)
+        plot([x(tIdx), x(tIdx + 1)], [y_bar, y_bar], ...
+            'Color', color, 'LineWidth', max(line_width, 0.4));
+    end
+end
+end
+
+function add_peak_lme_fit(ax, peak_times, participants_used, line_width)
+% Overlay fixed-effect LME prediction for peak MI time across electrodes.
+if isempty(peak_times)
+    return;
+end
+
+try
+    n_flies = size(peak_times, 1);
+    n_elec = size(peak_times, 2);
+    electrode_idx = 1:n_elec;
+    peak_reordered = peak_times(:, end:-1:1); % E_retina -> E_central
+
+    fly_id = repmat(participants_used, n_elec, 1);
+    fly_id = fly_id(:);
+    electrode_long = repmat(electrode_idx, n_flies, 1);
+    electrode_long = electrode_long(:);
+    peak_long = peak_reordered(:);
+    valid = ~isnan(peak_long);
+
+    tbl = table(categorical(fly_id(valid)), electrode_long(valid), peak_long(valid), ...
+        'VariableNames', {'FlyID', 'Electrode', 'PeakTime'});
+    lme_peak = fitlme(tbl, 'PeakTime ~ Electrode + (1|FlyID)');
+
+    intercept = lme_peak.Coefficients.Estimate(1);
+    slope = lme_peak.Coefficients.Estimate(2);
+    x_fit = electrode_idx;
+    y_fit = intercept + slope .* x_fit;
+    plot(ax, x_fit, y_fit, '--k', 'LineWidth', max(line_width, 0.4), ...
+        'DisplayName', 'LME fit');
+catch ME
+    warning('plot_MI_LFP_peak_summary:lmeFailed', ...
+        'Could not add peak-time LME fit: %s', ME.message);
+end
 end
 
 function m = nanmean_local(x, dim)
