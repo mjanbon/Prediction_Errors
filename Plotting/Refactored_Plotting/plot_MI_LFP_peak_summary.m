@@ -86,7 +86,7 @@ for e = 1:numel(selected_electrodes)
     xline(stim_onset_plot_ms, '--k', 'LineWidth', 0.3);
     xlabel('Time from stimulus onset (ms)');
     ylabel('MI (bits)');
-    title(elec);
+    title(sprintf('%s MI', elec));
     ylim_here = ylim;
     ylim([0 max(ylim_here(2), eps)]);
     format_axes(gca, axis_width);
@@ -104,9 +104,9 @@ for r = 1:size(peak_times, 1)
 end
 yline(0, ':k', 'LineWidth', 0.3);
 add_peak_lme_fit(gca, peak_times, participants_used, line_width);
-xlabel('Electrode number (E_{retina} -> E_{central})');
-ylabel('Peak MI time (ms)');
-title('Peak MI timing');
+xlabel('Electrode number (E_{retina} \rightarrow E_{central})');
+ylabel('Peak MI time from stimulus onset (ms)');
+title('MI progression across electrodes');
 format_axes(gca, axis_width);
 
 set(findall(fig, 'Type', 'Line'), 'LineWidth', line_width);
