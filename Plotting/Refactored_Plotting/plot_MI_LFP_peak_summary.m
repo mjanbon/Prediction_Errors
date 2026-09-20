@@ -114,7 +114,7 @@ add_peak_lme_fit(gca, peak_times, participants_used, line_width);
 ylabel('Peak MI time from stimulus onset (ms)');
 title('MI progression across electrodes');
 format_axes(gca, axis_width);
-add_panel_label(ax_peak, panel_labels{panel_counter});
+add_panel_label(ax_peak, panel_labels{panel_counter}, -0.033);
 add_bottom_axis_label(ax_peak, 'Electrode number (E_{retina} \rightarrow E_{central})');
 
 set(findall(fig, 'Type', 'Line'), 'LineWidth', line_width);
@@ -428,9 +428,12 @@ set(ax, 'Box', 'off', 'TickDir', 'out', 'LineWidth', axis_width, ...
     'FontName', 'Arial', 'FontSize', 8, 'XGrid', 'off', 'YGrid', 'off');
 end
 
-function add_panel_label(ax, label_text)
-text(ax, -0.10, 1.08, label_text, 'Units', 'normalized', ...
-    'FontName', 'Arial', 'FontSize', 11, 'FontWeight', 'bold', ...
+function add_panel_label(ax, label_text, x_position)
+if nargin < 3 || isempty(x_position)
+    x_position = -0.10;
+end
+text(ax, x_position, 1.08, label_text, 'Units', 'normalized', ...
+    'FontName', 'Arial', 'FontSize', 13, 'FontWeight', 'bold', ...
     'HorizontalAlignment', 'left', 'VerticalAlignment', 'top', ...
     'Clipping', 'off');
 end
