@@ -50,8 +50,10 @@ if isempty(participants_used)
 end
 
 %% Build figure
-fig = figure('Color', 'w', 'Position', [100 100 1200 900]);
-t = tiledlayout(3, numel(selected_electrodes), 'TileSpacing', 'compact', 'Padding', 'compact');
+fig = figure('Color', 'w', 'Position', [100 100 1200 980]);
+t = tiledlayout(3, numel(selected_electrodes), 'TileSpacing', 'compact', 'Padding', 'loose');
+panel_labels = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+panel_counter = 1;
 
 % Row 1: selected-electrode LFP traces
 for e = 1:numel(selected_electrodes)
@@ -70,6 +72,8 @@ for e = 1:numel(selected_electrodes)
         legend([h_std h_dvt], {'Standard', 'Deviant'}, 'Box', 'off', 'Location', 'best');
     end
     format_axes(gca, axis_width);
+    add_panel_label(gca, panel_labels{panel_counter});
+    panel_counter = panel_counter + 1;
 end
 
 % Row 2: corresponding selected-electrode MI traces
@@ -90,10 +94,13 @@ for e = 1:numel(selected_electrodes)
     ylim_here = ylim;
     ylim([0 max(ylim_here(2), eps)]);
     format_axes(gca, axis_width);
+    add_panel_label(gca, panel_labels{panel_counter});
+    panel_counter = panel_counter + 1;
 end
 
 % Row 3: peak MI progression across electrodes, spanning all columns
 nexttile(t, 2*numel(selected_electrodes) + 1, [1 numel(selected_electrodes)]);
+ax_peak = gca;
 boxplot(peak_times(:, end:-1:1), 'Labels', elec_names_rev, ...
     'LabelOrientation', 'inline', 'Widths', 0.55, 'MedianStyle', 'line');
 hold on;
@@ -108,6 +115,11 @@ xlabel('Electrode number (E_{retina} \rightarrow E_{central})');
 ylabel('Peak MI time from stimulus onset (ms)');
 title('MI progression across electrodes');
 format_axes(gca, axis_width);
+xlabel(ax_peak, 'Electrode number (E_{retina} \rightarrow E_{central})');
+ax_peak.XLabel.Visible = 'on';
+ax_peak.XLabel.Units = 'normalized';
+ax_peak.XLabel.Position(2) = -0.13;
+add_panel_label(ax_peak, panel_labels{panel_counter});
 
 set(findall(fig, 'Type', 'Line'), 'LineWidth', line_width);
 set(findall(fig, 'Type', 'Axes'), 'LineWidth', axis_width, 'XGrid', 'off', 'YGrid', 'off');
@@ -418,4 +430,11 @@ end
 function format_axes(ax, axis_width)
 set(ax, 'Box', 'off', 'TickDir', 'out', 'LineWidth', axis_width, ...
     'FontName', 'Arial', 'FontSize', 8, 'XGrid', 'off', 'YGrid', 'off');
+end
+
+function add_panel_label(ax, label_text)
+text(ax, -0.10, 1.08, label_text, 'Units', 'normalized', ...
+    'FontName', 'Arial', 'FontSize', 11, 'FontWeight', 'bold', ...
+    'HorizontalAlignment', 'left', 'VerticalAlignment', 'top', ...
+    'Clipping', 'off');
 end
