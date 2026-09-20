@@ -50,7 +50,7 @@ if isempty(participants_used)
 end
 
 %% Build figure
-fig = figure('Color', 'w', 'Position', [100 100 1200 980]);
+fig = figure('Color', 'w', 'Position', [100 100 1200 1020]);
 t = tiledlayout(3, numel(selected_electrodes), 'TileSpacing', 'compact', 'Padding', 'loose');
 panel_labels = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
 panel_counter = 1;
@@ -111,15 +111,11 @@ for r = 1:size(peak_times, 1)
 end
 yline(0, ':k', 'LineWidth', 0.3);
 add_peak_lme_fit(gca, peak_times, participants_used, line_width);
-xlabel('Electrode number (E_{retina} \rightarrow E_{central})');
 ylabel('Peak MI time from stimulus onset (ms)');
 title('MI progression across electrodes');
 format_axes(gca, axis_width);
-xlabel(ax_peak, 'Electrode number (E_{retina} \rightarrow E_{central})');
-ax_peak.XLabel.Visible = 'on';
-ax_peak.XLabel.Units = 'normalized';
-ax_peak.XLabel.Position(2) = -0.13;
 add_panel_label(ax_peak, panel_labels{panel_counter});
+add_bottom_axis_label(ax_peak, 'Electrode number (E_{retina} \rightarrow E_{central})');
 
 set(findall(fig, 'Type', 'Line'), 'LineWidth', line_width);
 set(findall(fig, 'Type', 'Axes'), 'LineWidth', axis_width, 'XGrid', 'off', 'YGrid', 'off');
@@ -349,7 +345,7 @@ end
 for tIdx = 1:(numel(x) - 1)
     if all_sig(tIdx)
         plot([x(tIdx), x(tIdx + 1)], [y_bar, y_bar], ...
-            'Color', color, 'LineWidth', max(line_width, 0.4));
+            'Color', color, 'LineWidth', max(line_width, 0.8));
     end
 end
 end
@@ -437,4 +433,11 @@ text(ax, -0.10, 1.08, label_text, 'Units', 'normalized', ...
     'FontName', 'Arial', 'FontSize', 11, 'FontWeight', 'bold', ...
     'HorizontalAlignment', 'left', 'VerticalAlignment', 'top', ...
     'Clipping', 'off');
+end
+
+function add_bottom_axis_label(ax, label_text)
+text(ax, 0.5, -0.20, label_text, 'Units', 'normalized', ...
+    'FontName', 'Arial', 'FontSize', 9, 'FontWeight', 'normal', ...
+    'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', ...
+    'Interpreter', 'tex', 'Clipping', 'off');
 end
