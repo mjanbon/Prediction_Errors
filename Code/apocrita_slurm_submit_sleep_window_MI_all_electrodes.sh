@@ -7,7 +7,7 @@
 #SBATCH --partition=compute
 
 module load matlab
-HELPER_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/CoI-pipeline/Helpers"
+HELPER_DIR="/data/SBBS-PIDProject/Maxime/Prediction_Errors/Helpers"
 
 # One fly per task. Half the matched length allows sliding even in flies
 # with fewer sleep than wake trials. Set windowFraction=1 for the old length.
