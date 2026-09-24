@@ -696,7 +696,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     % Create a compact legend showing only the main lines (synergy, redundancy)
     % Place legend inside the axes (northeast) so it does not shift subplot positions
     legend([h_syn, h_red], {'Synergy','Redundancy'}, 'Location', 'northeast', 'FontSize', 9, 'Box', 'off');
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Total Information (bits)');
     title('Total Synergy & Redundancy by Distance');
     grid off;
@@ -715,7 +715,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     shade_error_region(plot_distances, peak_redundancy_mean(1:max_valid_distance), pooled_peak_red_sem(1:max_valid_distance), [0.8 0.2 0.2]);
 
     % Do not create legend for peak subplot in combined figure (avoids 'data*' labels)
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Peak Value (bits)');
     title('Peak Synergy & Redundancy by Distance');
     grid off;
@@ -798,7 +798,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     hold on;
     h_tot_syn = plot(plot_distances, -synergy_mean(1:max_valid_distance), 'b-', 'LineWidth', 0.3); %#ok<NASGU>
     shade_error_region(plot_distances, -synergy_mean(1:max_valid_distance), synergy_sem(1:max_valid_distance), [0 0.4 0.8]);
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Total Synergy (bits)');
     title('Total Synergy by Distance');
     grid off;
@@ -809,7 +809,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     hold on;
     h_peak_syn = plot(plot_distances, -peak_synergy_mean(1:max_valid_distance), 'b-', 'LineWidth', 0.3); %#ok<NASGU>
     shade_error_region(plot_distances, -peak_synergy_mean(1:max_valid_distance), peak_synergy_sem(1:max_valid_distance), [0 0.4 0.8]);
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Peak Synergy (bits)');
     title('Peak Synergy by Distance');
     grid off;
@@ -828,7 +828,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     hold on;
     h_tot_red = plot(plot_distances, redundancy_mean(1:max_valid_distance), 'r-', 'LineWidth', 0.3); %#ok<NASGU>
     shade_error_region(plot_distances, redundancy_mean(1:max_valid_distance), redundancy_sem(1:max_valid_distance), [0.8 0.2 0.2]);
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Total Redundancy (bits)');
     title('Total Redundancy by Distance');
     grid off;
@@ -839,7 +839,7 @@ function plot_synergy_redundancy_results(distances, synergy_mean, synergy_sem, r
     hold on;
     h_peak_red = plot(plot_distances, peak_redundancy_mean(1:max_valid_distance), 'r-', 'LineWidth', 0.3); %#ok<NASGU>
     shade_error_region(plot_distances, peak_redundancy_mean(1:max_valid_distance), peak_redundancy_sem(1:max_valid_distance), [0.8 0.2 0.2]);
-    xlabel('Electrode distance (E_{retina} -> E_{central})');
+    xlabel('Number of separating electrodes');
     ylabel('Peak Redundancy (bits)');
     title('Peak Redundancy by Distance');
     grid off;

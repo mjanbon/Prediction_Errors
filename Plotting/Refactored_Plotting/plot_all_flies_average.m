@@ -6,8 +6,8 @@
     activity_tags = {'wake', 'sleep'};
     compare_conditions = 'False'
     single_condition = 'False'
-    co_i_by_distance = 'False'
-    co_i_by_electrode = 'True'
+    co_i_by_distance = 'True'
+    co_i_by_electrode = 'False'
     plot_separate_regions = 'False' % New flag for the separate region plots
     total_coi_across_conditions = 'False'
     compare_total_coi_across_4_conditions = 'False'
