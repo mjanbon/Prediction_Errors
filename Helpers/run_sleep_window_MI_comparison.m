@@ -3,13 +3,13 @@ function outputDir = run_sleep_window_MI_comparison(USING_HPC, participantIndice
 % run_sleep_window_MI_comparison()       : all configured flies, local data.
 % run_sleep_window_MI_comparison(0,1)    : first fly locally.
 % run_sleep_window_MI_comparison(2,3)    : third fly on Apocrita.
-% Options: channels, windowTrials, windowFraction, windowStep, nPerm,
+% Options: channels, windowTrials, windowFraction, windowStep, nWindows, nPerm,
 % dataRoot, outputDir. windowFraction=0.5 uses half of the selected
 % activity's available balanced trials per sliding window.
 if nargin < 1 || isempty(USING_HPC), USING_HPC = 0; end
 if nargin < 2, participantIndices = []; end
 if nargin < 3, options = struct(); end
-defaults = struct('channels',15:-1:1,'windowTrials',[],'windowFraction',1,'windowStep',[], ...
+defaults = struct('channels',15:-1:1,'windowTrials',[],'windowFraction',1,'windowStep',[],'nWindows',[], ...
     'nPerm',0,'dataRoot','','outputDir','');
 names = fieldnames(defaults);
 for k = 1:numel(names)
@@ -39,6 +39,9 @@ if isempty(options.outputDir)
     end
     if ~isempty(options.windowStep)
         outputDir = fullfile(outputDir,sprintf('step_%d',options.windowStep));
+    end
+    if ~isempty(options.nWindows)
+        outputDir = fullfile(outputDir,sprintf('windows_%d',options.nWindows));
     end
 else
     outputDir = options.outputDir;
@@ -82,7 +85,7 @@ for i = participantIndices(:).'
         windowTrials = floor(options.windowFraction * min(cellfun(@(x) size(x,3),data)));
     end
     summary = compute_sleep_window_MI_scan(data,baseline,options.channels, ...
-        windowTrials,options.windowStep,options.nPerm,0.05);
+        windowTrials,options.windowStep,options.nPerm,0.05,options.nWindows);
     clear data
     summary.subject = subject;
     summary.condition = condition;
