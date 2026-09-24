@@ -37,6 +37,9 @@ if isempty(options.outputDir)
     elseif options.windowFraction ~= 1
         outputDir = fullfile(outputDir,['windowFraction_',strrep(num2str(options.windowFraction),'.','p')]);
     end
+    if ~isempty(options.windowStep)
+        outputDir = fullfile(outputDir,sprintf('step_%d',options.windowStep));
+    end
 else
     outputDir = options.outputDir;
 end

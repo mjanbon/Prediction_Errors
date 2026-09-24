@@ -14,6 +14,7 @@ Add `Helpers` to the MATLAB path, then run:
 run_sleep_window_MI_comparison()       % all configured flies
 run_sleep_window_MI_comparison(0,1)    % first fly only
 run_sleep_window_MI_comparison(0,[],struct('windowFraction',0.5)) % sliding range in every fly
+run_sleep_window_MI_comparison(0,[],struct('windowFraction',0.1,'windowStep',50)) % local 10% windows
 ```
 
 The default is a descriptive scan with no permutations. This does not change
@@ -31,9 +32,13 @@ the activity selected by `Max_get_param`, multiplied by `windowFraction`
 activity trials. These runs are saved separately in a `windowFraction_0p5`
 subfolder. An
 explicit `windowTrials` overrides the fraction and uses a `trials_N` subfolder.
-The default step is one tenth of the chosen length. Each window contains N
-deviant and N standard trials from the selected activity. `nPerm` is currently
-ignored because this scan no longer calculates a wake-minus-sleep comparison.
+The default step is one tenth of the chosen length. Set `windowStep` directly
+for more windows; for example `windowStep=50` advances the window by 50 trials
+at a time and saves into a `step_50` subfolder. The current Apocrita script
+uses `windowFraction=0.1`, so each window contains 10% of that fly's balanced
+deviant/standard trial count. Each window contains N deviant and N standard
+trials from the selected activity. `nPerm` is currently ignored because this
+scan no longer calculates a wake-minus-sleep comparison.
 
 Outputs go under:
 
